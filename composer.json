@@ -1,0 +1,10 @@
+{
+    "name": "usuario/ossec",
+    "authors": [
+        {
+            "name": "e",
+            "email": "eee@eeee.com"
+        }
+    ],
+    "require": {}
+}
