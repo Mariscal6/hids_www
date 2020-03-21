@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Mapping ';
+
 /* @(#) $Id: os_lib_mapping.php,v 1.7 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -89,5 +92,6 @@ function os_getusermapping($ossec_handle)
     return($mapping_list);
 }
 
+//echo '<br> Mapping Funciona Completo';
 
 ?>

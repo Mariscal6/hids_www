@@ -25,7 +25,7 @@
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt GNU Public License
  */
 
-require_once 'Ossec/Histogram.php';
+require_once 'Histogram.php';
 
 /**
  * 

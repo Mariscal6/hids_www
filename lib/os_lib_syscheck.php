@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Syscheck ';
+
 /* @(#) $Id: os_lib_syscheck.php,v 1.9 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -10,8 +13,6 @@
  * Foundation
  */
        
-
-
 function __os_getdb($file, $_name)
 {
     $db_list = NULL;
@@ -161,6 +162,7 @@ function __os_getdb($file, $_name)
     return($db_list);
 }
 
+//echo '<br> Syscheck function __os_getdb($file, $_name)';
 
 function __os_getchanges($file, &$g_last_changes, $_name)
 {
@@ -240,6 +242,7 @@ function __os_getchanges($file, &$g_last_changes, $_name)
 
 }
 
+//echo '<br> Syscheck function __os_getchanges($file, &$g_last_changes, $_name)';
 
 /* Dump syscheck db */
 function os_syscheck_dumpdb($ossec_handle, $agent_name)
@@ -305,6 +308,7 @@ function os_syscheck_dumpdb($ossec_handle, $agent_name)
     }
 }
 
+//echo '<br> Syscheck function os_syscheck_dumpdb($ossec_handle, $agent_name)';
 
 function os_getsyscheck($ossec_handle)
 {
@@ -367,5 +371,8 @@ function os_getsyscheck($ossec_handle)
     return(NULL);
 }
 
+//echo '<br> Syscheck function os_getsyscheck($ossec_handle)';
+
+//echo '<br> Sycheck Funciona Completo';
 
 ?>

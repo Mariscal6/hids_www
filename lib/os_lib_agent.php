@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Agent ';
+
 /* @(#) $Id: os_lib_agent.php,v 1.9 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -166,5 +169,6 @@ function os_getagents($ossec_handle)
     return(NULL);
 }
 
+//echo '<br> Agents Funciona Completo';
 
 ?>

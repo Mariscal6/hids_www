@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Alerts ';
+
 /* @(#) $Id: os_lib_alerts.php,v 1.17 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -20,6 +23,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU Public License
  * 
  */
+
 
 require_once 'Ossec/Alert.php';
 require_once 'Ossec/AlertList.php';
@@ -235,7 +239,7 @@ function __os_parsealert(&$fp, $curr_time,
                 continue;
             }
         }
-        
+      
         
         /* Level */
         $token = strtok(" ");
@@ -481,6 +485,8 @@ $buffer = fgets($fp, 2048);
  * @return array
  *   An array of data identifying stored search results.
  */
+
+
 function os_searchalerts($ossec_handle, $search_id,
                          $init_time, $final_time, 
                          $max_count,
@@ -667,7 +673,6 @@ function os_searchalerts($ossec_handle, $search_id,
     return($output_file);
 }
 
-
 /**
  * Clean out stored search result files. If a search ID is given, all result
  * files for that search ID will be unlinked. If the given search ID is NULL,
@@ -814,6 +819,7 @@ function os_getstoredalerts($ossec_handle, $search_id)
  * @return Ossec_AlertList
  *   An alert list
  */
+
 // TODO: This is always called with init_time=0, final_time=0 and max_count=30.
 function os_getalerts($ossec_handle, $init_time, $final_time, $max_count)
 {
@@ -889,5 +895,6 @@ function os_getalerts($ossec_handle, $init_time, $final_time, $max_count)
     return($alert_list);
 }
 
+//echo '<br> Alerts Funciona Completo';
 
 ?>

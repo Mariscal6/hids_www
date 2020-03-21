@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Formats ';
+
 /* @(#) $Id: ossec_formats.php,v 1.7 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -84,6 +87,8 @@ $log_categories = array(
 	)
 
 );
+
+//echo '<br> Formats Funciona Completo';
 
 /* EOF */
 

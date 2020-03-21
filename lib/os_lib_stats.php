@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Stats ';
+
 /* @(#) $Id: os_lib_stats.php,v 1.6 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -161,5 +164,6 @@ function os_getstats($ossec_handle,
     return($stats_list);
 }
 
+//echo '<br> Stats Funciona Completo';
 
 ?>

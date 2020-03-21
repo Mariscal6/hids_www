@@ -1,5 +1,7 @@
 <?php
 
+//echo 'Config ';
+
 /* OSSEC Configuration for the UI. Make sure to set
  * right ossec_dir in here. If your server does not
  * have much memory available, reduce the max_alerts

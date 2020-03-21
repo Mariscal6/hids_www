@@ -43,7 +43,7 @@ class Ossec_Alert {
     var $location;
     var $msg;
 
-    function toHtml( ) {
+    function toHtml() {
 
         $date    = date('Y M d H:i:s', $this->time);
         $id_link = "<a href=\"http://www.ossec.net/doc/search.html?q=rule-id-{$this->id}\">{$this->id}</a>";

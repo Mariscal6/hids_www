@@ -64,6 +64,6 @@ class Ossec_Histogram {
         return $this->_histogram;
     }
 
-};
+}
 
 ?>

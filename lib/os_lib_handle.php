@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Handle ';
+
 /* @(#) $Id: os_lib_handle.php,v 1.9 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -102,6 +105,7 @@ function os_handle_start($dir)
     return(NULL);
 }
 
+//echo '<br> Handle Funciona Completo';
 
 /* EOF */
 ?>

@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Utils ';
+
 /* @(#) $Id: os_lib_util.php,v 1.5 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -21,6 +24,8 @@
 function os_log($msg)
 {
 }
+
+//echo '<br> Utils Funciona Completo';
 
 /* EOF */
 ?>

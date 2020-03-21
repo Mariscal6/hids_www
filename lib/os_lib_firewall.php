@@ -1,4 +1,7 @@
 <?php
+
+//echo 'Firewall ';
+
 /* @(#) $Id: os_lib_firewall.php,v 1.8 2008/03/03 19:37:25 dcid Exp $ */
 
 /* Copyright (C) 2006-2008 Daniel B. Cid <dcid@ossec.net>
@@ -273,5 +276,7 @@ function os_searchfw($ossec_handle, $search_id,
     }
     return($alert_list);
 }
+
+//echo '<br> Firewall Funciona Completo';
 
 ?>
