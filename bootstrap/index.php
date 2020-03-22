@@ -39,8 +39,7 @@ foreach ($array_lib as $mylib)
   echo $cont;
   $cont++;
 }
-
-       
+ 
 /* OS PHP init */
 if (!function_exists('os_handle_start'))
 {
@@ -54,24 +53,6 @@ if($ossec_handle == NULL)
 {
     echo "Unable to access ossec directory.\n";
     return(1);
-}
-/* Getting last alerts */
-$alert_list = os_getalerts($ossec_handle, 0, 0, 30);
-if($alert_list == NULL)
-{
-    echo "<b class='red'>Unable to retrieve alerts. </b><br />\n";
-}
-else
-{
-    echo "<h2>Latest events</h2><br />\n";
-    $alert_count = $alert_list->size() -1;
-    $alert_array = $alert_list->alerts();
-
-    while($alert_count >= 0)
-    {
-        echo $alert_array[$alert_count]->toHtml();
-        $alert_count--;
-    }
 }
 
 ?>
@@ -312,60 +293,38 @@ else
           </div>
           <!-- End Card -->
 
+          <!-- List last alerts -->
+          <?php 
+          /* Getting last alerts */
+          $alert_list = os_getalerts($ossec_handle, 0, 0, 30);
+          if($alert_list == NULL)
+          {
+              echo "<b class='red'>Unable to retrieve alerts. </b><br />\n";
+          }
+          else
+          {
+              $alert_count = $alert_list->size() -1;
+              $alert_array = $alert_list->alerts();
+          
+              while($alert_count >= 0)
+              {
+                  echo '<div class="card shadow mb-4">
+                          <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Level 7 | Rule Id: 551</h6>
+                          <h6 class="m-0 font-weight-bold text-primary">Location | ubuntu-18->syscheck</h6>
+                          </div>
+                          <div class="card-body">
+                          ';
 
-          <!-- Alert -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Level 7 | Rule Id: 551</h6>
-              <h6 class="m-0 font-weight-bold text-primary">Location | ubuntu-18->syscheck</h6>
-            </div>
-            <div class="card-body">
-              <p>Integrity checksum changed for: '/boot/grub/grub.cfg'</p>
-              <p>Size changed from '11319' to '9417'</p>
-              <p>Old md5sum was: 'd424cda05ab96091c19b0eae2926b415'</p>
-              <p>New md5sum is : '3dddbcd00121b3c430d23c7f7c0a52a4'</p>
-              <p>Old sha1sum was: 'fa3acd35cdd2f7ab2c6b5e6e96cdde611db2ed42'</p>
-              <p>New sha1sum is : 'fa9009096c299649940daeff434b0588305d228e'</p>
-              
-            </div>
-          </div>
-          <!-- End Alert -->
+                            $alert_array[$alert_count]->toHtml();
 
-          <!-- Alert -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Level 7 | Rule Id: 551</h6>
-              <h6 class="m-0 font-weight-bold text-primary">Location | ubuntu-18->syscheck</h6>
-            </div>
-            <div class="card-body">
-              <p>Integrity checksum changed for: '/boot/grub/grub.cfg'</p>
-              <p>Size changed from '11319' to '9417'</p>
-              <p>Old md5sum was: 'd424cda05ab96091c19b0eae2926b415'</p>
-              <p>New md5sum is : '3dddbcd00121b3c430d23c7f7c0a52a4'</p>
-              <p>Old sha1sum was: 'fa3acd35cdd2f7ab2c6b5e6e96cdde611db2ed42'</p>
-              <p>New sha1sum is : 'fa9009096c299649940daeff434b0588305d228e'</p>
-              
-            </div>
-          </div>
-          <!-- End Alert -->
-
-          <!-- Alert -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Level 7 | Rule Id: 551</h6>
-              <h6 class="m-0 font-weight-bold text-primary">Location | ubuntu-18->syscheck</h6>
-            </div>
-            <div class="card-body">
-              <p>Integrity checksum changed for: '/boot/grub/grub.cfg'</p>
-              <p>Size changed from '11319' to '9417'</p>
-              <p>Old md5sum was: 'd424cda05ab96091c19b0eae2926b415'</p>
-              <p>New md5sum is : '3dddbcd00121b3c430d23c7f7c0a52a4'</p>
-              <p>Old sha1sum was: 'fa3acd35cdd2f7ab2c6b5e6e96cdde611db2ed42'</p>
-              <p>New sha1sum is : 'fa9009096c299649940daeff434b0588305d228e'</p>
-              
-            </div>
-          </div>
-          <!-- End Alert -->
+                    echo '</div></div>';
+                  $alert_count--;
+              }
+          }
+          ?>
+          <!-- End list last alerts -->
+         
 
         </div>
         <!-- /.container-fluid -->
