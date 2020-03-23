@@ -99,83 +99,59 @@
           </div>
           <!-- End Card -->
 
-          <!-- Card (Row) -->
+          <!-- Start Card -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="main-stats" class="card show mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Filters: </h6>
+                </div>
+                <div class="card-body py-3 d-flex flex-row align-items-center justify-content-between">
+                  <div class="row">
+                    <div class="col-12">
+                      Maximum Files per Date:
+                      <select id="filter" class="selectpicker" title="Choose a number" onchange="applyLimits(this)">
+                        <option value="0">Show All</option>
+                        <option value="1">Show Latest Only (1)</option>
+                        <option value="5">Show 5 or less</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <div>
+          </div>
+          <!-- End Card -->
+          
+          <!-- Start Card -->
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Latest modified files (for all agents):</h6>
                 </div>
+              </div>
+            <div>
+          </div>
+          <!-- End Card -->
+
+          <!-- Card (Row) -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="main-stats" class="card show mb-4">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <?php
+                    <div class="col mr-2" id="modifiedFiles">
+                    <?php
                         /* Last modified files */
-                        if(($syscheck_list == NULL) || ($syscheck_list{'global_list'} == NULL)) {
-                          echo '<ul class="ulsmall bluez">
-                              No integrity checking information available.<br />
-                              Nothing reported as changed.
-                              </ul>
-                            ';
-                        } else {
-                          echo '<table><tr><td valign="top">';
-                          if(isset($syscheck_list{'global_list'}) && isset($syscheck_list{'global_list'}{'files'})) {
-                            $last_mod_date = "";
-                            $sk_count = 0;
-       
-                            foreach($syscheck_list{'global_list'}{'files'} as $syscheck) {
-                              $sk_count++;
-                              # Initing file name
-                              $ffile_name = "";
-                              $ffile_name2 = "";
-              
-                              if(strlen($syscheck[2]) > 90) {
-                                $ffile_name = substr($syscheck[2], 0, 95)."..";
-                                $ffile_name2 = substr($syscheck[2], 96, 160);
-                              } else {
-                                $ffile_name = $syscheck[2];
-                              }
-                              /* Setting the date */
-                              if($last_mod_date != date('Y M d', $syscheck[0])) {
-                                $last_mod_date = date('Y M d', $syscheck[0]);
-                                echo "\n<br /><b>$last_mod_date</b><br />\n";
-                              }
-                              echo '
-                                  <span id="togglesk'.$sk_count.'">
-                                  <a  href="#" class="bluez" title="Expand '.$syscheck[2].'" 
-                                  onclick="ShowSection(\'sk'.$sk_count.'\');return false;">+'.
-                                  $ffile_name.'</a><br /> 
-                                  </span>
-
-                                  <div id="contentsk'.$sk_count.'" style="display: none">
-
-                                  <a  href="#" title="Hide '.$syscheck[2].'" 
-                                  onclick="HideSection(\'sk'.
-                                  $sk_count.'\');return false;">-'.$ffile_name.'</a>
-                                  <br />
-                                  <div class="smaller">
-                                  &nbsp;&nbsp;<b>File:</b> '.$ffile_name.'<br />';
-                                if($ffile_name2 != "") {
-                                  echo "&nbsp;&nbsp;&nbsp;&nbsp;".$ffile_name2.'<br />';
-                                }
-                                echo '
-                                &nbsp;&nbsp;<b>Agent:</b> '.$syscheck[1].'<br />
-                                &nbsp;&nbsp;<b>Modification time:</b> '.
-                                date('Y M d H:i:s', $syscheck[0]).'<br />
-                                </div>
-
-                                </div>
-                                ';
-                            }
-                          }
-                        }
+                        require('includes/tools/integrity/modifiedFiles.php');
                       ?>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
           <!-- End Card -->
 
 

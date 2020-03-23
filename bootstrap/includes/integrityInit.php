@@ -64,8 +64,12 @@ if($ossec_handle == NULL)
     return(1);
 }
 
-
 /* Getting syscheck information */
 $syscheck_list = os_getsyscheck($ossec_handle);
+
+$filterNum = 0;
+if (isset($_GET['filter'])) {
+    $filterNum = $_GET['filter'];
+}
 
 ?>
