@@ -76,6 +76,11 @@ if($ossec_handle == NULL)
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <script type="text/javascript" src="js/calendar.js"></script>
+  <script type="text/javascript" src="js/calendar-en.js"></script>
+  <script type="text/javascript" src="js/calendar-setup.js"></script>
+  <script type="text/javascript" src="js/prototype.js"></script>
+  <script type="text/javascript" src="js/hide.js"></script>
 
   <?php require('imports/allCSS.php'); ?>
 
@@ -241,31 +246,27 @@ if($ossec_handle == NULL)
                               }
                               
                               echo '
-                                  <span id="togglesk'.$sk_count.'">
-                                  <a  href="#" class="bluez" title="Expand '.$syscheck[2].'" 
-                                  onclick="ShowSection(\'sk'.$sk_count.'\');return false;">+'.
-                                  $ffile_name.'</a><br /> 
-                                  </span>
-
-                                  <div id="contentsk'.$sk_count.'" style="display: none">
-
-                                  <a  href="#" title="Hide '.$syscheck[2].'" 
-                                  onclick="HideSection(\'sk'.
-                                  $sk_count.'\');return false;">-'.$ffile_name.'</a>
-                                  <br />
-                                  <div class="smaller">
-                                  &nbsp;&nbsp;<b>File:</b> '.$ffile_name.'<br />';
-                                  if($ffile_name2 != "")
-                                  {
-                                      echo "&nbsp;&nbsp;&nbsp;&nbsp;".$ffile_name2.'<br />';
-                                  }
-                                  echo '
-                                  &nbsp;&nbsp;<b>Agent:</b> '.$syscheck[1].'<br />
-                                  &nbsp;&nbsp;<b>Modification time:</b> '.
-                                  date('Y M d H:i:s', $syscheck[0]).'<br />
-                                  </div>
-
-                                  </div>
+                                    <span id="toggleagt'.$agent_count.'">
+                                    <a  href="#" '.$aclass.' title="'.$atitle.'" 
+                                    onclick="ShowSection(\'agt'.$agent_count.'\');return false;">+'.
+                                    $agent{'name'}." (".$agent{'ip'}.')'.$amsg.'</a><br /> 
+                                    </span>
+                            
+                                    <div id="contentagt'.$agent_count.'" style="display: none">
+                            
+                                    <a  href="#" '.$aclass.' title="'.$atitle.'" 
+                                    onclick="HideSection(\'agt'.
+                                    $agent_count.'\');return false;">-'.$agent{'name'}.
+                                    " (".$agent{'ip'}.')'.$amsg.'</a>
+                                    <br />
+                                    <div class="smaller">
+                                    &nbsp;&nbsp;<b>Name:</b> '.$agent{'name'}.'<br />
+                                    &nbsp;&nbsp;<b>IP:</b> '.$agent{'ip'}.'<br />
+                                    &nbsp;&nbsp;<b>Last keep alive:</b> '.
+                                    date('Y M d H:i:s', $agent{'change_time'}).'<br />
+                                    &nbsp;&nbsp;<b>OS:</b> '.$agent{'os'}.'<br />
+                                    </div>
+                                    </div>
                                   ';
                           }
                       }
@@ -310,15 +311,10 @@ if($ossec_handle == NULL)
               {
                   echo '<div class="card shadow mb-4">
                           <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Level 7 | Rule Id: 551</h6>
-                          <h6 class="m-0 font-weight-bold text-primary">Location | ubuntu-18->syscheck</h6>
-                          </div>
-                          <div class="card-body">
-                          ';
-
-                            $alert_array[$alert_count]->toHtml();
-
-                    echo '</div></div>';
+                             ';
+                  echo $alert_array[$alert_count]->toHtml();
+                  echo '</div> <div class="card-body">
+                  </div></div>';
                   $alert_count--;
               }
           }
