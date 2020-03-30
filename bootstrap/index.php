@@ -1,62 +1,5 @@
-<?php 
-/* @(#) $Id: main.php,v 1.12 2008/03/03 19:37:26 dcid Exp $ */
-
-/* Copyright (C) 2006-2013 Trend Micro
- * All rights reserved.
- *
- * This program is a free software; you can redistribute it
- * and/or modify it under the terms of the GNU General Public
- * License (version 3) as published by the FSF - Free Software
- * Foundation
- */
-
-require('includes/config.php'); 
-
-$int_error="Internal error. Try again later.\n <br />";
-$include_error="Unable to include file:";
-
-$array_lib = array("../ossec_conf.php", "../lib/ossec_categories.php",
-"../lib/ossec_formats.php", 
-"../lib/os_lib_util.php",
-"../lib/os_lib_handle.php",
-"../lib/os_lib_agent.php",
-"../lib/os_lib_mapping.php",
-"../lib/os_lib_stats.php",
-"../lib/os_lib_syscheck.php",
-"../lib/os_lib_firewall.php",
-"../lib/os_lib_alerts.php");
-
-$cont = 1;
-foreach ($array_lib as $mylib)
-{
-  if(!(include($mylib)))
-  {
-    echo "error";
-    echo "$include_error '$mylib'.\n<br />";
-    echo "$int_error";
-    return(1);
-  }
-  echo $cont;
-  $cont++;
-}
- 
-/* OS PHP init */
-if (!function_exists('os_handle_start'))
-{
-    echo "<b class='red'>You are not allowed direct access.</b><br />\n";
-    return(1);
-}
-
-/* Starting handle */
-$ossec_handle = os_handle_start($ossec_dir);
-if($ossec_handle == NULL)
-{
-    echo "Unable to access ossec directory.\n";
-    return(1);
-}
-
-?>
-
+<?php require('includes/config.php'); ?>
+<?php require('includes/indexInit.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,12 +19,7 @@ if($ossec_handle == NULL)
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <script type="text/javascript" src="js/calendar.js"></script>
-  <script type="text/javascript" src="js/calendar-en.js"></script>
-  <script type="text/javascript" src="js/calendar-setup.js"></script>
-  <script type="text/javascript" src="js/prototype.js"></script>
-  <script type="text/javascript" src="js/hide.js"></script>
-
+ 
   <?php require('imports/allCSS.php'); ?>
 
 </head>
@@ -348,6 +286,14 @@ if($ossec_handle == NULL)
   <!-- End of Logout Modal-->
 
   <?php require('imports/all.php'); ?>
+
+
+  <script type="text/javascript" src="js/calendar.js"></script>
+  <script type="text/javascript" src="js/calendar-en.js"></script>
+  <script type="text/javascript" src="js/calendar-setup.js"></script>
+  <script type="text/javascript" src="js/prototype.js"></script>
+  <script type="text/javascript" src="js/hide.js"></script>
+
 
 </body>
 
