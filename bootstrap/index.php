@@ -1,6 +1,5 @@
 <?php require('includes/config.php'); ?>
 <?php require('includes/indexInit.php'); ?>
-<?php require('includes/indexFunction.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -14,6 +14,7 @@ $array_lib = array("../ossec_conf.php", "../lib/ossec_categories.php",
 "../lib/os_lib_firewall.php",
 "../lib/os_lib_alerts.php");
 
+$cont = 1;
 foreach ($array_lib as $mylib)
 {
   if(!(include($mylib)))
@@ -23,8 +24,10 @@ foreach ($array_lib as $mylib)
     echo "$int_error";
     return(1);
   }
+  echo $cont;
+  $cont++;
 }
- 
+
 /* OS PHP init */
 if (!function_exists('os_handle_start'))
 {
@@ -39,4 +42,3 @@ if($ossec_handle == NULL)
     echo "Unable to access ossec directory.\n";
     return(1);
 }
-
