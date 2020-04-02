@@ -3,16 +3,16 @@
 $int_error="Internal error. Try again later.\n <br />";
 $include_error="Unable to include file:";
 
-$array_lib = array("../../ossec_conf.php", "../../lib/ossec_categories.php",
-"../../lib/ossec_formats.php", 
-"../../lib/os_lib_util.php",
-"../../lib/os_lib_handle.php",
-"../../lib/os_lib_agent.php",
-"../../lib/os_lib_mapping.php",
-"../../lib/os_lib_stats.php",
-"../../lib/os_lib_syscheck.php",
-"../../lib/os_lib_firewall.php",
-"../../lib/os_lib_alerts.php");
+$array_lib = array("../ossec_conf.php", "../lib/ossec_categories.php",
+"../lib/ossec_formats.php", 
+"../lib/os_lib_util.php",
+"../lib/os_lib_handle.php",
+"../lib/os_lib_agent.php",
+"../lib/os_lib_mapping.php",
+"../lib/os_lib_stats.php",
+"../lib/os_lib_syscheck.php",
+"../lib/os_lib_firewall.php",
+"../lib/os_lib_alerts.php");
 
 foreach ($array_lib as $mylib)
 {

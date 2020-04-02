@@ -1,20 +1,6 @@
 <?php
 
-$array_lib = array(
-"../../lib/os_lib_agent.php",
-"../../lib/os_lib_syscheck.php",
-"../../lib/os_lib_alerts.php");
-
-foreach ($array_lib as $mylib)
-{
-  if(!(include($mylib)))
-  {
-    echo "error";
-    echo "$include_error '$mylib'.\n<br />";
-    echo "$int_error";
-    return(1);
-  }
-}
+require('indexInit.php');
 
 function showAgents($ossec_handle){
 
