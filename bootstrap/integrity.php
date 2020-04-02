@@ -59,29 +59,37 @@
           </div>
 
           <!-- Content Row -->
+          <form name="dosearch" method="post" action="index.php?f=i">
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <form name="dosearch" method="post" action="index.php?f=i">
-                      Agent name: 
-                      <select name="agentpattern" class="formText">
-                      <?php 
-                      foreach($syscheck_list as $agent => $agent_name) {
-                        $sl = "";
-                        if ($agent == "global_list") {   
-                          continue;
-                        } else if($u_agent == $agent) {
-                          $sl = ' selected="selected"';
-                        }
-                        echo '<option value="'.$agent.'" '.$sl.'> &nbsp; '.$agent.'</option>';
-                      }
-                      echo '</select>';
-                      echo '<input type="submit" name="ss" value="Dump database" class="button"/>';
-                      if($USER_agent != NULL) {
-                        echo ' &nbsp; &nbsp;<a class="bluez" href="index.php?f=i"> &lt;&lt;back</a>';
-                      }
-                      
+                  <h6 class="m-0 font-weight-bold text-primary">Agent</h6>
+                </div>
+                <div class="card-body">
+
+                  
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Agent name:</label>
+                        </div>
+                        <select name="agentpattern" class="custom-select">
+                        <?php
+                          foreach($syscheck_list as $agent => $agent_name) {
+                            $sl = "";
+                            if ($agent == "global_list") {   
+                              continue;
+                            } else if($u_agent == $agent) {
+                              $sl = ' selected="selected"';
+                            }
+                            echo '<option value="'.$agent.'" '.$sl.'> &nbsp; '.$agent.'</option>';
+                          }
+                        ?>
+                        </select>
+                      </div>
+                </div>
+                <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
+                  <?php
                       /* Dumping database */
                       if( array_key_exists( 'ss', $_POST ) ) {
                         if(($_POST['ss'] == "Dump database") && ($USER_agent != NULL))
@@ -90,55 +98,83 @@
                             return(1);
                         }
                       }
-                      
-                      ?>
-                  </form>
+                  ?>
+                  <button type="submit" name="ss" class="btn btn-success">Dump database</button>
                 </div>
               </div>
             </div>
           </div>
+          </form>
           <!-- End Card -->
 
+          <form id="filterForm" action="" method="POST">
           <!-- Start Card -->
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Filters: </h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Filters</h6>
                 </div>
-                <div class="card-body py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card-body">
                   <div class="row">
-                    <div class="col-12">
-                      Maximum Files per Date:
-                      <select id="filter" class="selectpicker" title="Choose a number" onchange="applyLimits(this)">
-                        <option value="0">Show All</option>
-                        <option value="1">Show Latest Only (1)</option>
-                        <option value="5">Show 5 or less</option>
-                      </select>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Maximum Files per Day: </label>
+                      </div>
+                      <input id="maxFiles" type="text" class="form-control" name="maxFiles" value="<?php echo $maxFiles; ?>">
                     </div>
                   </div>
+                  <br>
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Maximum Days: </label>
+                      </div>
+                      <input id="maxDays" type="text" class="form-control" name="maxDays" value="<?php echo $maxDays; ?>">
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Order of Dates:</label>
+                      </div>
+                      <select id="dayOrder" class="custom-select" name="dayOrder">
+                        <option value="asc" <?php if ($dayOrder == "asc") { echo 'selected';} ?>>Ascending</option>
+                        <option value="desc" <?php if ($dayOrder == "desc") { echo 'selected';} ?>>Descending</option>
+                      </select>
+                      </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Order of Files:</label>
+                      </div>
+                      <select id="fileOrder" class="custom-select" name="fileOrder">
+                        <option value="asc" <?php if ($fileOrder == "asc") { echo 'selected';} ?>>Ascending</option>
+                        <option value="desc" <?php if ($fileOrder == "desc") { echo 'selected';} ?>>Descending</option>
+                      </select>
+                      </div>
+                    </div>
+                </div>
+                <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
+                  <button type="submit" class="btn btn-success">Apply Filters</button>
+                  <button type="button" class="btn btn-danger" onclick="clearFilters();">Clear Filters</button>
                 </div>
               </div>
             <div>
           </div>
+          </form>
           <!-- End Card -->
           
-          <!-- Start Card -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div id="main-stats" class="card show mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Latest modified files (for all agents):</h6>
-                </div>
-              </div>
-            <div>
-          </div>
-          <!-- End Card -->
-
           <!-- Card (Row) -->
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Latest modified files (for all agents)</h6>
+                </div>
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2" id="modifiedFiles">
