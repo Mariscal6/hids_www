@@ -13,6 +13,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
+ * 
+ * 
+ * /* Modification made by Daniel Candil Vizcaino 2019-2020 <dacandil@ucm.es>
+ * All modifications are done for investigation purposes. 
+ * 
+ * This program is a free software; you can redistribute it
+ * and/or modify it under the terms of the GNU General Public
+ * License (version 3) as published by the FSF - Free Software
+ * Foundation
+ *
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
@@ -63,14 +73,21 @@ class Ossec_Alert {
 
         return <<<HTML
         <div class="alert $class">
-            <span class="alertdate">$date</span>
-            <div class="alertindent">Level: </div><div class="alertlevel">{$this->level} - <span class="alertdescription">{$this->description}</span></div>
-            <div class="alertindent">Rule Id: </div>$id_link <br />
-            <div class="alertindent">Location: </div>{$this->location}<br />
+            <!--<span class="alertdate">$date</span>-->
+            <div class="alertindent"><b>Level:</b> {$this->level} - <span class="alertdescription">{$this->description}</span></div>
+            <div class="alertindent"><b>Rule Id:</b> $id_link </div>
+            <div class="alertindent"><b>Location:</b> {$this->location} </div>
             $srcip
             $user
-            <div class="msg">$message</div>
+            <div class="msg"><b>Message:</b> $message</div>
         </div>
+HTML;
+    }
+
+    function titleToHtml(){
+        $date = date('Y M d H:i:s', $this->time);
+        return <<<HTML
+            <span class="alertdate">$date</span>
 HTML;
     }
 };
