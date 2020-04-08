@@ -161,11 +161,13 @@ function listAlert($ossec_handle){
         while($alert_count >= 0)
         {
             echo '<div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                       ';
-            echo $alert_array[$alert_count]->toHtml();
-            echo '</div> <div class="card-body">
-            </div></div>';
+                    <div class="card-header py-3">';
+                    echo $alert_array[$alert_count]->titleToHtml();
+                     
+            echo '</div>
+                    <div class="card-body">';
+                    echo $alert_array[$alert_count]->toHtml();
+             echo'</div></div>';
             $alert_count--;
         }
     }
