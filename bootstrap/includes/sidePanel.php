@@ -47,6 +47,13 @@
         </a>
       </li>
 
+      <!-- Nav Item -->
+      <li class="nav-item">
+        <a class="nav-link" href="customLogs.php" aria-expanded="true" aria-controls="collapseTwo">
+          <span>Custom Logs</span>
+        </a>
+      </li>
+
       <?php
       if (isset($_SESSION['login'])) {
         if (isset($_SESSION['role'])) {
