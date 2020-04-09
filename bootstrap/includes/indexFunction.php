@@ -52,7 +52,7 @@ function showAgents($ossec_handle){
                 <br>
                 <div class="smaller">
                     <b>Name:</b> '.$agent{'name'}.'<br>
-                    <b>IP:</b> '.$agent{'ip'}.'<br>y
+                    <b>IP:</b> '.$agent{'ip'}.'<br>
                     <b>Last keep alive:</b> '.
                     date('Y M d H:i:s', $agent{'change_time'}).'<br>
                     <b>OS:</b> '.$agent{'os'}.'<br>
@@ -155,7 +155,7 @@ function listAlert($ossec_handle){
     }
     else
     {
-        $alert_count = $alert_list->size() -1;
+        $alert_count = $alert_list->size()-1;
         $alert_array = $alert_list->alerts();
     
         while($alert_count >= 0)

@@ -1,32 +1,5 @@
 <?php
 
-$int_error="Internal error. Try again later.\n <br />";
-$include_error="Unable to include file:";
-
-$array_lib = array("../ossec_conf.php", "../lib/ossec_categories.php",
-"../lib/ossec_formats.php", 
-"../lib/os_lib_util.php",
-"../lib/os_lib_handle.php",
-"../lib/os_lib_agent.php",
-"../lib/os_lib_mapping.php",
-"../lib/os_lib_stats.php",
-"../lib/os_lib_syscheck.php",
-"../lib/os_lib_firewall.php",
-"../lib/os_lib_alerts.php");
-
-$cont = 1;
-foreach ($array_lib as $mylib)
-{
-  if(!(include($mylib)))
-  {
-    echo "error";
-    echo "$include_error '$mylib'.\n<br />";
-    echo "$int_error";
-    return(1);
-  }
-  echo $cont;
-  $cont++;
-}
 
 /* OS PHP init */
 if (!function_exists('os_handle_start'))

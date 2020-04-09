@@ -53,27 +53,26 @@ class Ossec_Alert {
     var $location;
     var $msg;
 
-    function toHtml() {
-
+    function toHtml(){
         $date    = date('Y M d H:i:s', $this->time);
         $id_link = "<a href=\"http://www.ossec.net/doc/search.html?q=rule-id-{$this->id}\">{$this->id}</a>";
         $message = join( '<br/>', $this->msg );
 
         $srcip = "";
         if( $this->srcip != '(none)' && $this->srcip != "") {
-            $srcip = "<div class=\"alertindent\">Src IP: </div>{$this->srcip}<br/>";
+            $srcip = "<div class=\"alertindent\"><b>Src IP: </b>{$this->srcip}<br/></div>";
         }
 
         $user = "";
         if( $this->user != '') {
-            $user = "<div class=\"alertindent\">User: </div>{$this->user}<br/>";
+            $user = "<div class=\"alertindent\"><b>User: </b>{$this->user}</div>";
         }
 
         $class = "level_{$this->level} id_{$this->id} srcip_{$this->srcip}";
 
         return <<<HTML
         <div class="alert $class">
-            <!--<span class="alertdate">$date</span>-->
+            <span class="alertdate"><b>Date: </b>$date</span>
             <div class="alertindent"><b>Level:</b> {$this->level} - <span class="alertdescription">{$this->description}</span></div>
             <div class="alertindent"><b>Rule Id:</b> $id_link </div>
             <div class="alertindent"><b>Location:</b> {$this->location} </div>

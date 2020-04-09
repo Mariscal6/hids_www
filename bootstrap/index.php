@@ -97,9 +97,14 @@
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Latest Events</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color:#eaecf4">
+                  <h6 class="m-0 font-weight-bold text-primary" style="color:#71094b"> Latest Events</h6>
                 </div>
+                <div class="p-4"> 
+                      <?php 
+                      listAlert($ossec_handle)
+                    ?>  
+                    </div>
               </div>
             </div>
           </div>
@@ -107,9 +112,7 @@
 
           <!-- List last alerts -->
 
-          <?php 
-            listAlert($ossec_handle)
-          ?>
+         
           <!-- End list last alerts -->
          
 
