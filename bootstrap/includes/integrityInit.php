@@ -1,26 +1,4 @@
 <?php
-$array_lib = array(
-"../ossec_conf.php",
-"../lib/ossec_categories.php",
-"../lib/ossec_formats.php",  
-"../lib/os_lib_handle.php",
-"../lib/os_lib_agent.php",
-"../lib/os_lib_mapping.php",
-"../lib/os_lib_stats.php",
-"../lib/os_lib_syscheck.php",
-"../lib/os_lib_firewall.php",
-"../lib/os_lib_alerts.php");
-
-$int_error = "Internal error. Try again later.\n <br />";
-$include_error = "Unable to include file:";
-
-foreach ($array_lib as $mylib) {
-    if (!(include($mylib))) {
-        echo "$include_error '$mylib'.\n<br />";
-        echo "$int_error";
-        return(1);
-    }
-}
 
 /* Initializing variables */
 $u_agent = "ossec-server";
@@ -65,11 +43,50 @@ if($ossec_handle == NULL)
 }
 
 /* Getting syscheck information */
-$syscheck_list = os_getsyscheck($ossec_handle);
 
-$filterNum = 0;
-if (isset($_GET['filter'])) {
-    $filterNum = $_GET['filter'];
+/*
+
+Send filters:
+
+array(
+    days => 2,
+    filesPerDay => 4,
+    sortingOrder => asc
+)
+
+*/
+
+// Filters fetch
+
+$maxFiles = 100;
+$maxDays = 100;
+$dayOrder = 'desc';
+$fileOrder = 'desc';
+
+if (isset($_POST['maxFiles'])) {
+    $maxFiles = $_POST['maxFiles'];
 }
+
+if (isset($_POST['maxDays'])) {
+    $maxDays = $_POST['maxDays'];
+}
+
+if (isset($_POST['dayOrder'])) {
+    $dayOrder = $_POST['dayOrder'];
+}
+
+if (isset($_POST['fileOrder'])) {
+    $fileOrder = $_POST['fileOrder'];
+}
+
+
+$filters = [
+    "maxDays" => $maxDays,
+    "maxFiles" => $maxFiles,
+    "daySort" => $dayOrder,
+    "fileSort" => $fileOrder,
+];
+
+$syscheck_list = os_getsyscheck_custom($ossec_handle, $filters);
 
 ?>
