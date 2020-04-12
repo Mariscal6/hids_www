@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$ossec_root="/var/www/html/ossec/";
 /*
 $servername = "localhost";
 $username = "root";
