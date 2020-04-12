@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Error 404</title>
+  <title>Custom Logs</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,52 +44,54 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-        <form id="filterForm" action="" method="POST">
-          <!-- Start Card -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div id="main-stats" class="card show mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Filters</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Type:</label>
-                            </div>
-                            <select id="dayOrder" class="custom-select" name="dayOrder" onchange="changeType(this);">
-                                <option disabled selected value="">Select a type</option>
-                                <option value="command">Command</option>
-                                <option value="localFile">Localfile</option>
-                                <option value="response">Active Response</option>
-                            </select>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row" id="typeContent">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Select File:</label>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            <div>
-          </div>
-          </form>
-      
-      <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <?php require('includes/footer.php'); ?>
-      <!-- End of Footer -->
+          <form id="filterForm" action="" method="POST">
+            <!-- Start Card -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div id="main-stats" class="card show mb-4">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Filters</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                                  <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Type:</label>
+                              </div>
+                              <select id="dayOrder" class="custom-select" name="dayOrder" onchange="changeType(this);">
+                                  <option disabled selected value="">Select a type</option>
+                                  <option value="command">Command</option>
+                                  <option value="localFile">Localfile</option>
+                                  <option value="response">Active Response</option>
+                              </select>
+                          </div>
+                      </div>
+                      <br>
+                      <div class="row" id="typeContent">
+
+
+                      </div>
+                      <div class="row" id="secondLocalFile">
+        
+                      </div>
+                  </div>
+                  <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
+                    <button type="submit" disabled class="btn btn-success" title="Not all fields are complete">Add Register</button>
+                  </div>
+                </div>
+              <div>
+            </div>
+            </form>
+        
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <?php require('includes/footer.php'); ?>
+        <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
