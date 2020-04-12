@@ -89,6 +89,9 @@ HTML;
             <span class="alertdate">$date</span>
 HTML;
     }
+    function getDescription(){
+        return $this->description;
+    }
 };
 
 ?>

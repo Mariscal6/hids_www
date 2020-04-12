@@ -52,7 +52,7 @@ $agent_list = os_getagents($ossec_handle);
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <!-- Sidebar -->php
+    <!-- Sidebar -->
     <?php require('includes/sidePanel.php'); ?>
     <!-- End of Sidebar -->
 
@@ -111,7 +111,7 @@ $agent_list = os_getagents($ossec_handle);
                 </div>
                 <div class="card-body">
                 <ul class="list-group list-group-flush">
-                <?php echo $USER_init."---";
+                <?php
                 if((!isset($USER_init) || !isset($USER_final) || !isset($USER_level))): ?>
                   <p class="text-danger">No search performed.</p>
                 <?php endif;
@@ -135,7 +135,6 @@ $agent_list = os_getagents($ossec_handle);
                                                    $USER_srcip, $USER_user,
                                                    $USER_log);
                 }
-                print_r($output_list);
                 if($output_list == NULL || $output_list[1] == NULL)
                 {
                     if($used_stored == 1)
@@ -168,7 +167,7 @@ $agent_list = os_getagents($ossec_handle);
                 $real_page = ($output_list[0]{'pg'} + 1) - $USER_page;
                 
                 
-                echo "<b>Total alerts found: </b>".$output_list[0]{'count'}."<br />";
+                echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
                 
                 if($output_list[0]{'pg'} > 1)
                 {
@@ -221,8 +220,6 @@ $agent_list = os_getagents($ossec_handle);
                     </form>
                 ';
                 }
-                
-                echo('#############'.$output_list[$real_page]);
                 /* Checking if page exists */
                 if(!isset($output_list[0]{$real_page}) ||
                    (strlen($output_list[$real_page]) < 5) ||

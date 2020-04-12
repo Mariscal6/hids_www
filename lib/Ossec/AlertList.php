@@ -118,12 +118,21 @@ class Ossec_AlertList {
             <tr><td><b>Last event</b> at <a href="#ft"><?php echo $last ?></a></td></tr>
         </table>
         <br />
-
+       
         <h2>Alert list</h2>
         <div id="alert_list_content">
             <a name="ft" ></a>
             <?php foreach( array_reverse($this->_alerts) as $alert ): ?>
-                <?php echo $alert->toHtml( ) ?>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <?php echo $alert->getDescription() ?>
+                    </h6>
+                    </div>
+                    <div class="card-body">
+                        <?php echo $alert->toHtml( ) ?>
+                    </div>
+                </div>   
             <?php endforeach; ?>
             <a name="lt" ></a>
         </div>

@@ -23,7 +23,6 @@ $USER_monitoring = 0;
 $used_stored = 0;
 
 /* Getting search id */
-print_r($_POST);
 if(isset($_POST['searchid']))
 {
     if(preg_match('/^[a-z0-9]+$/', $_POST['searchid']))
