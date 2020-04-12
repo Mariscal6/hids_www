@@ -27,7 +27,7 @@
 
 require_once 'Ossec/Alert.php';
 require_once 'Ossec/AlertList.php';
-
+$ossec_root = $GLOBALS['ossec_root'];
 /**
  * Formats the given alerts into HTML and writes the result to the given
  * file path.
@@ -39,7 +39,7 @@ require_once 'Ossec/AlertList.php';
 //TODO: This can probably be a method of AlertList
 function __os_createresults($out_file, $alert_list)
 {
-    /* Opening output file */
+    /* Opening output file */ 
     $fp = fopen($out_file, "w");
     if(!$fp) {
         return(NULL);
@@ -160,7 +160,16 @@ function __os_parsealert(&$fp, $curr_time,
             /* Invalid group */
             continue;
         }
-        
+        $array_lib = array("/ossec_conf.php", "/lib/ossec_categories.php",
+"/lib/ossec_formats.php",  
+"/lib/os_lib_handle.php",
+"/lib/os_lib_agent.php",
+"/lib/os_lib_mapping.php",
+"/lib/os_lib_stats.php",
+"/lib/os_lib_syscheck.php",
+"/lib/os_lib_syscheckCustom.php",
+"/lib/os_lib_firewall.php",
+"/lib/os_lib_alerts.php");
         
         /* Filtering based on the group */
         if($group_pattern != NULL)
@@ -617,7 +626,8 @@ function os_searchalerts($ossec_handle, $search_id,
             /* Dont get more than max count alerts per page */
             if($alert_list->size( ) >= $max_count)
             {
-                $output_file[$output_count] = "./tmp/output-tmp.".
+                
+                $output_file[$output_count] = $GLOBALS['ossec_root']."tmp/output-tmp.".
                                             $output_count."-".$alert_list->size( )."-".
                                             $search_id.".php";
                 
@@ -660,14 +670,14 @@ function os_searchalerts($ossec_handle, $search_id,
 
 
     /* Creating last entry */
-    $output_file[$output_count] = "./tmp/output-tmp.".
+    $output_file[$output_count] = $GLOBALS['ossec_root']."tmp/output-tmp.".
                                   $output_count."-".$alert_list->size( )."-".
                                   $search_id.".php";
     
     $output_file[0]{$output_count} = $alert_list->size( ) -1;
     $output_file[$output_count +1] = NULL;
 
-     __os_createresults($output_file[$output_count], $alert_list);                                  
+    __os_createresults($output_file[$output_count], $alert_list);                                  
 
     $output_file[0]{'pg'} = $output_count;
     return($output_file);
@@ -685,14 +695,14 @@ function os_cleanstored($search_id = null)
 {
     if($search_id != NULL)
     {
-        foreach (glob("./tmp/output-tmp.*-*-".$search_id.".php") as $filename)
+        foreach (glob($GLOBALS['ossec_root']."tmp/output-tmp.*-*-".$search_id.".php") as $filename)
         {
             unlink($filename);
         }
     }
     else
     {
-        foreach (glob("./tmp/*.php") as $filename)
+        foreach (glob($GLOBALS['ossec_root']."tmp/*.php") as $filename)
         {
             if(filemtime($filename) < (time(0) - 1800))
             {
@@ -748,10 +758,10 @@ function os_getstoredalerts($ossec_handle, $search_id)
     /* Cleaning old entries */
     os_cleanstored(NULL);
     
+    $ossec_root=$GLOBALS['ossec_root'];
+    $filepattern = "/^$ossec_root\/tmp\/output-tmp\.(\d{1,3})-(\d{1,6})-[a-z0-9]+\.php$/";
     
-    $filepattern = "/^\.\/tmp\/output-tmp\.(\d{1,3})-(\d{1,6})-[a-z0-9]+\.php$/";
-    
-    foreach (glob("./tmp/output-tmp.*-*-".$search_id.".php") as $filename) 
+    foreach (glob($ossec_root."tmp/output-tmp.*-*-".$search_id.".php") as $filename) 
     {
         if(preg_match($filepattern, $filename, $regs))
         {
