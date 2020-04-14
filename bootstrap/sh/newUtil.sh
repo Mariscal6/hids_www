@@ -81,7 +81,7 @@ if [ $ACTION = "addcommand" ]; then
     # Checking if file is already configured
     grep "$FILE" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
     if [ $? = 0 ]; then
-        echo "$0: File $FILE already configured at ossec."
+        echo "$0: Command $FILE already configured at ossec."
         exit 1;
     fi
 
@@ -139,28 +139,28 @@ if [ $ACTION = "addfile" ]; then
 
 
      if [ $TYPE = "file" ]; then
-        grep "$FILE" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
+        grep "$FILECOMMAND" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
         if [ $? = 0 ]; then
-            echo "$0: File $FILE already configured at ossec."
+            echo "$0: File $FILECOMMAND already configured at ossec."
             exit 1;
         fi
 
         # Checking if file exist
-        ls -la $FILE > /dev/null 2>&1
+        ls -la $FILECOMMAND > /dev/null 2>&1
         if [ ! $? = 0 ]; then
-            echo "$0: File $FILE does not exist."
+            echo "$0: File $FILECOMMAND does not exist."
             exit 1;
         fi
 
          echo "
-            <ossec_config>
-                <localfile>
-                    <log_format>$LOGFORMAT</log_format>
-                    <location>$FILECOMMAND</location>
-                    <check_diff>$ARG5</check_diff >
-                    <only-future-events>$ARG6</only-future-events>
-                </localfile>
-            </ossec_config>  
+         <ossec_config>
+            <localfile>
+                <log_format>$LOGFORMAT</log_format>
+                <location>$FILECOMMAND</location>
+                <check_diff>$ARG5</check_diff >
+                <only-future-events>$ARG6</only-future-events>
+            </localfile>
+        </ossec_config>  
         " >> ${DIRECTORY}/etc/ossec.conf  
         echo "$0: File $FILE added.";
         exit 0;  
