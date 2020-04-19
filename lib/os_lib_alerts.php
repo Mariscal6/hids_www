@@ -759,7 +759,7 @@ function os_getstoredalerts($ossec_handle, $search_id)
     os_cleanstored(NULL);
     
     $ossec_root=$GLOBALS['ossec_root'];
-    $filepattern = "/^$ossec_root\/tmp\/output-tmp\.(\d{1,3})-(\d{1,6})-[a-z0-9]+\.php$/";
+    $filepattern = "/^".$ossec_root."\/tmp\/output-tmp\.(\d{1,3})-(\d{1,6})-[a-z0-9]+\.php$/";
     
     foreach (glob($ossec_root."tmp/output-tmp.*-*-".$search_id.".php") as $filename) 
     {

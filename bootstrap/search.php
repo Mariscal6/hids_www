@@ -169,57 +169,7 @@ $agent_list = os_getagents($ossec_handle);
                 
                 echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
                 
-                if($output_list[0]{'pg'} > 1)
-                {
-                    echo "<b>Output divided in </b>".
-                         $output_list[0]{'pg'}." pages.<br />";
-                
-                    echo '<br /><form name="dopage" method="post" action="index.php?f=s">';
-                }
-                
-                
-                if($output_list[0]{'pg'} > 1)
-                {
-                    echo '
-                        <input type="submit" name="search" value="<< First" class="button"
-                               class="formText" />
-                
-                        <input type="submit" name="search" value="< Prev" class="button"
-                               class="formText" />
-                         ';
-                
-                    echo 'Page <b>'.$USER_page.'</b> ('.$output_list[0]{$real_page}.' alerts)';
-                }
-                
-                /* Currently page */
-                echo '
-                    <input type="hidden" name="initdate"
-                           value="'.date('Y-m-d H:i', $u_init_time).'" />
-                    <input type="hidden" name="finaldate"
-                           value="'.date('Y-m-d H:i', $u_final_time).'" />
-                    <input type="hidden" name="rulepattern" value="'.$u_rule.'" />
-                    <input type="hidden" name="srcippattern" value="'.$u_srcip.'" />
-                    <input type="hidden" name="userpattern" value="'.$u_user.'" />
-                    <input type="hidden" name="locationpattern" value="'.$u_location.'" />
-                    <input type="hidden" name="level" value="'.$u_level.'" />
-                    <input type="hidden" name="page" value="'.$USER_page.'" />
-                    <input type="hidden" name="searchid" value="'.$USER_searchid.'" />
-                    <input type="hidden" name="monitoring" value="'.$USER_monitoring.'" />
-                    <input type="hidden" name="max_alerts_per_page"
-                                         value="'.$ossec_max_alerts_per_page.'" />';
-                
-                
-                if($output_list[0]{'pg'} > 1)
-                {
-                echo '
-                    &nbsp;&nbsp;
-                    <input type="submit" name="search" value="Next >" class="button"
-                           class="formText" />
-                     <input type="submit" name="search" value="Last >>" class="button"
-                           class="formText" />
-                    </form>
-                ';
-                }
+                require('includes/pagesSearch.php');
                 /* Checking if page exists */
                 if(!isset($output_list[0]{$real_page}) ||
                    (strlen($output_list[$real_page]) < 5) ||
