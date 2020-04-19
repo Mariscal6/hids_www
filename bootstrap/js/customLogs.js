@@ -5,26 +5,42 @@ function changeType(element) {
     switch (element.options[element.selectedIndex].value) {
         case 'command':
             generateCommandHTML(htmlSection);
-        break;
+            break;
         case 'localFile':
             generateLocalFileHTML(htmlSection);
-        break;
+            break;
         case 'response':
             generateResponseHTML(htmlSection);
-        break;
+            break;
     }
 }
 
 
 function generateCommandHTML(element) {
 
-    var allowedFormats = [
-        "name", //elige el usuario el nombre
-        "executable", //It must be a file (with exec permissions) inside “/var/ossec/active-response/bin”. You don’t need to provide the whole path.
-        "expect", //The arguments this command is expecting (options are srcip and username).
-        "timeout_allowed", //Specifies if this command supports timeout. Yes or No
-    ];
+    var tags = {
+        "name": {
+            "name": "Name",
+            "info": "Used to link the command to the response.",
+            "ossec_name": "name"
+        },
+        "exe": {
+            "name": "Executable",
+            "info": "It must be a file (with exec permissions) inside “/var/ossec/active-response/bin”. You don’t need to provide the whole path.",
+            "ossec_name": "executable"
+        },
+        "expect": {
+            "name": "Expect",
+            "info": "The arguments this command is expecting (options are srcip and username).",
+            "ossec_name": "expect"
+        },
+        "timeout": {
+            "name": "Timeout allowed",
+            "info": "Specifies if this command supports timeout. Yes or No",
+            "ossec_name": "timeout_allowed"
+        },
 
+    };
     var allowedNames = [
         "Name",
         "Executable",
@@ -32,29 +48,38 @@ function generateCommandHTML(element) {
         "Timeout allowed",
     ];
 
-    html =`
+    html = `
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[0]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+            <i class="fas fa-info-circle" title="` + tags.name.info + `" style="margin-right:6px;"></i>
+            ` + tags.name.name + `: 
+            </label>
         </div>
-        <input required id="name" type="text" class="form-control" name="`+allowedNames[0]+`" value="">
+        <input required id="name" type="text" class="form-control" name="` + tags.name.ossec_name + `" value="">
     </div>
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[1]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="` + tags.exe.info + `" style="margin-right:6px;"></i>
+                  ` + tags.exe.name + `: 
+            </label>
         </div>
         <div class="custom-file">
-            <input required type="file" accept=".sh" class="custom-file-input" id="executable" name="`+allowedNames[1]+`">
+            <input required type="file" accept=".sh" class="custom-file-input" id="executable" name="` + tags.exe.ossec_name + `">
             <label class="custom-file-label" for="customFile">Choose .sh file</label>
         </div>
     </div>
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[2]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+            <i class="fas fa-info-circle" title="` + tags.expect.info + `" style="margin-right:6px;"></i>
+            ` + tags.expect.name + `: 
+            </label>
         </div>
-        <select id="`+allowedNames[2]+`" class="custom-select" name="`+allowedNames[2]+`">
+        <select id="` + tags.expect.ossec_name + `" class="custom-select" name="` + tags.expect.ossec_name + `">
             <option disabled selected value="">Select a type</option>
             <option value="srcip">srcip</option>
             <option value="user">username</option>
@@ -63,9 +88,12 @@ function generateCommandHTML(element) {
     <br>
     <div class="input-group mb-3">
     <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[3]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="` + tags.timeout.info + `" style="margin-right:6px;"></i>
+            ` + tags.timeout.name + `: 
+            </label>
         </div>
-        <select id="`+allowedNames[3]+`" class="custom-select" name="`+allowedNames[3]+`">
+        <select id="` + tags.timeout.name + `" class="custom-select" name="` + tags.timeout.ossec_name + `">
             <option disabled selected value="">Allow</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -78,61 +106,13 @@ function generateCommandHTML(element) {
 // https://www.php.net/manual/es/function.shell-exec.php
 function generateLocalFileHTML(element) { // Comandos Consola / Ficheros
 
-    var allowedLogName = [
-        "Syslog",
-        "Snort Full",
-        "Snort Fast",
-        "Mysql",
-        "Mysql Log",
-        "Nmapg",
-        "Apache",
-        "Command",
-        "Full Command",
-        "Multiline",
-        "Multiline Indented"
-    ];
-
-    var allowedFormats = [
-        "location",
-        "log_format",
-        "command",
-        "alias",
-        "frequency",
-        "check_diff",
-        "only-future-events"
-    ];
-
-    var allowedNames = [
-        "Location",
-        "Log Format",
-        "Command",
-        "Alias",
-        "Frequency",
-        "Check Diff",
-        "Only Future Events"
-    ];
-
-    var allowedLogFormat = [
-        "syslog",
-        "snort-full",
-        "snort-fast",
-        "mysql_log",
-        "nmapg",
-        "apache",
-        "command",
-        "full_command",
-        "multi-line",
-        "multi-line_indented"
-    ];
-
-
     html = `
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Log Format:</label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Type Format:</label>
         </div>
         <select required id="" class="custom-select" name="log_format" onchange="generateLocalFileHTMLSecond(this)">
-            <option disabled selected value="">Log Format</option>
+            <option disabled selected value="">Type Format</option>
             <option value="command">Command</option>
             <option value="file">File</option>
         </select>
@@ -140,25 +120,93 @@ function generateLocalFileHTML(element) { // Comandos Consola / Ficheros
     `;
 
     element.innerHTML = html;
-    
+
 }
 
 function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
 
-    var allowedLogFormat = [
-        "syslog",
-        "snort-full",
-        "snort-fast",
-        "mysql_log",
-        "nmapg",
-        "apache",
-        "command",
-        "full_command",
-        "multi-line",
-        "multi-line_indented"
-    ];
+    var tags = {
+        "location": {
+            "name": "Location",
+            "info": "Specify the location of the log to be read. strftime formats may be used for log file names",
+            "ossec_name": "location"
+        },
+        "format": {
+            "name": "Log format",
+            "info": "The format of the log being read.",
+            "ossec_name": "log_format"
+        },
+        "command": {
+            "name": "Command",
+            "info": "The command to be run. All output from this command will be read as one or more log messages",
+            "ossec_name": "command"
+        },
+        "alias": {
+            "name": "Alias",
+            "info": "An alias to identify the command. This will replace the command in the log message.",
+            "ossec_name": "alias"
+        },
+        "frequency": {
+            "name": "Frequency",
+            "info": "The minimum time in seconds between command runs",
+            "ossec_name": "frequency"
+        },
+        "diff": {
+            "name": "Check diff",
+            "info": "The output from an event will be stored in an internal database",
+            "ossec_name": "check_diff"
+        },
+        "future": {
+            "name": "Only future events",
+            "info": "Only used with the eventchannel log format. By default, when OSSEC starts the eventchannel log format will read all events that ossec-logcollector missed since it was last stopped",
+            "ossec_name": "only-future-events"
+        },
 
+    }
+
+    var propsLogFormat = {
+        "syslog": {
+            "name": "Syslog",
+            "ossec_name": "syslog"
+        },
+        "snortfull": {
+            "name": "Snort full",
+            "ossec_name": "snort-full"
+        },
+        "snortfast": {
+            "name": "Snort fast",
+            "ossec_name": "snort-fast"
+        },
+        "mysql": {
+            "name": "Mysql",
+            "ossec_name": "mysql_log"
+        },
+        "nmapg": {
+            "name": "Nmapg",
+            "ossec_name": "nmapg"
+        },
+        "apache": {
+            "name": "Apache",
+            "ossec_name": "apache"
+        },
+        "command": {
+            "name": "Command",
+            "ossec_name": "command"
+        },
+        "fullcommand": {
+            "name": "Full command",
+            "ossec_name": "full_command"
+        },
+        "multiline": {
+            "name": "Multi line",
+            "ossec_name": "multi-line"
+        },
+        "multilineindented": {
+            "name": "Multi line indented",
+            "ossec_name": "multi-line_indented"
+        }
+    }
 
     var htmlSection = document.getElementById('secondLocalFile');
     htmlSection.innerHTML = "";
@@ -168,84 +216,106 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Log Format value: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.format.info + `" style="margin-right:6px;"></i>
+                    ` + tags.format.name + ` : 
+                    </label>
                 </div>
                 <select required id="dayOrder" class="custom-select" name="dayOrder">
-                    <option disabled selected value="">Select a type</option>
-                    <option value="`+allowedLogFormat[6]+`">Command</option>
-                    <option value="`+allowedLogFormat[7]+`">Full command</option>
+                    <option value="` + propsLogFormat.command.ossec_name + `">` + propsLogFormat.command.name + `</option>
+                    <option selected value="` + propsLogFormat.fullcommand.ossec_name + `">` + propsLogFormat.fullcommand.name + `</option>
                 </select>
             </div>
             
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Command: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.command.info + `" style="margin-right:6px;"></i>
+                    ` + tags.command.name + ` :
+                    </label>
                 </div>
-                <input required  id="maxDays" type="text" class="form-control" name="" value="">
+                <input required  id="maxDays" type="text" class="form-control" name="` + tags.command.ossec_name + `" value="">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Alias: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                    <i class="fas fa-info-circle" title="` + tags.alias.info + `" style="margin-right:6px;"></i>
+                    ` + tags.alias.name + ` :
+                    </label>
                 </div>
-                <input id="maxDays" type="text" class="form-control" name="" value="">
+                <input id="maxDays" type="text" class="form-control" name="` + tags.alias.ossec_name + `" value="">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Frequency: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.frequency.info + `" style="margin-right:6px;"></i>
+                    ` + tags.frequency.name + ` : 
+                    </label>
                 </div>
-                <input id="maxDays" type="number" min="0" class="form-control" name="" value="">
+                <input id="maxDays" type="number" min="0" class="form-control" name="` + tags.frequency.ossec_name + `" value="">
             </div>`;
-        break;
+            break;
+
         case 'file':
             htmlSection.innerHTML = `
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Log Format value: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.format.info + `" style="margin-right:6px;"></i>
+                    ` + tags.format.name + `: 
+                    </label>
                 </div>
                 <select required id="dayOrder" class="custom-select" name="dayOrder">
-                    <option value="`+allowedLogFormat[0]+` selected">Syslog</option>
-                    <option value="`+allowedLogFormat[1]+`">Snort full</option>
-                    <option value="`+allowedLogFormat[2]+`">Snort fast</option>
-                    <option value="`+allowedLogFormat[3]+`">Mysql log</option>
-                    <option value="`+allowedLogFormat[4]+`">Nmapg</option>
-                    <option value="`+allowedLogFormat[5]+`">Apache</option>
-                    <option value="`+allowedLogFormat[8]+`">Multi line</option>
-                    <option value="`+allowedLogFormat[9]+`">Multi line indented</option>
+                    <option select value="` + propsLogFormat.syslog.ossec_name + `"> ` + propsLogFormat.syslog.name + `</option>
+                    <option value="` + propsLogFormat.snortfull.ossec_name + `">` + propsLogFormat.snortfull.name + `</option>
+                    <option value="` + propsLogFormat.snortfast.ossec_name + `">` + propsLogFormat.snortfast.name + `</option>
+                    <option value="` + propsLogFormat.mysql.ossec_name + `">` + propsLogFormat.mysql.name + `</option>
+                    <option value="` + propsLogFormat.nmapg.ossec_name + `">` + propsLogFormat.nmapg.name + `</option>
+                    <option value="` + propsLogFormat.apache.ossec_name + `">` + propsLogFormat.apache.name + `</option>
+                    <option value="` + propsLogFormat.multiline.ossec_name + `">` + propsLogFormat.multiline.name + `</option>
+                    <option value="` + propsLogFormat.multilineindented.ossec_name + `">` + propsLogFormat.multilineindented.name + `</option>
                 </select>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Location: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.location.info + `" style="margin-right:6px;"></i>
+                    ` + tags.location.name + `: 
+                    </label>
                 </div>
                 <div class="custom-file">
-                    <input required type="file" accept=".log" class="custom-file-input" id="customFile">
+                    <input required type="file" accept=".log" class="custom-file-input" id="customFile" name="` + tags.location.ossec_name + `">
                     <label class="custom-file-label" for="customFile">Choose .log file</label>
                 </div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Check Diff: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.diff.info + `" style="margin-right:6px;"></i>
+                    ` + tags.diff.name + `: 
+                    </label>
                 </div>
-                <select id="dayOrder" class="custom-select" name="dayOrder">
-                    <option disabled selected value="">Allow</option>
-                    <option value="yes">Yes</option>
+                <select id="dayOrder" class="custom-select" name="` + tags.diff.ossec_name + `">
+                    <option selected value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Only Future Events: </label>
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.future.info + `" style="margin-right:6px;"></i>
+                    ` + tags.future.name + `: 
+                    </label>
                 </div>
-                <select id="dayOrder" class="custom-select" name="dayOrder">
-                    <option disabled selected value="">Allow</option>
+                <select id="dayOrder" class="custom-select" name="` + tags.future.ossec_name + `">
                     <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option selected value="no">No</option>
                 </select>
             </div>
             
             `;
-        break;
+            break;
     }
 
 }
@@ -278,10 +348,10 @@ function generateResponseHTML(element) {
     ];
 
 
-    html =`
+    html = `
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[0]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[0] + `: </label>
         </div>
         <select id="dayOrder" class="custom-select" name="dayOrder">
                     <option value select="no">No</option>
@@ -291,7 +361,7 @@ function generateResponseHTML(element) {
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[1]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[1] + `: </label>
         </div>
         <div class="custom-file">
             <input required id="maxDays" type="text" class="form-control" name="" value="">
@@ -300,20 +370,20 @@ function generateResponseHTML(element) {
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[2]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[2] + `: </label>
         </div>
         <select required id="dayOrder" class="custom-select" name="dayOrder">
             <option disabled selected value="">Select a type</option>
-            <option value="`+allowedLocationFormat[0]+`">Local</option>
-            <option value="`+allowedLocationFormat[1]+`">Server</option>
-            <option value="`+allowedLocationFormat[2]+`">Defined agent</option>
-            <option value="`+allowedLocationFormat[3]+`">All</option>
+            <option value="` + allowedLocationFormat[0] + `">Local</option>
+            <option value="` + allowedLocationFormat[1] + `">Server</option>
+            <option value="` + allowedLocationFormat[2] + `">Defined agent</option>
+            <option value="` + allowedLocationFormat[3] + `">All</option>
         </select>
     </div>
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[3]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[3] + `: </label>
         </div>
         <div class="custom-file">
             <input required id="maxDays" type="number" class="form-control" name="" value="">
@@ -322,7 +392,7 @@ function generateResponseHTML(element) {
     <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[4]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[4] + `: </label>
         </div>
         <div class="custom-file">
             <input required id="maxDays" type="number" class="form-control" name="" value="">
@@ -331,7 +401,7 @@ function generateResponseHTML(element) {
 <br>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">`+allowedNames[5]+`: </label>
+            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[5] + `: </label>
         </div>
         <div class="custom-file">
             <input required id="maxDays" type="number" class="form-control" name="" value="">
