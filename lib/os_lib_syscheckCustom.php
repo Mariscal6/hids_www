@@ -121,19 +121,16 @@ function __os_getchanges_custom($file, &$g_last_changes, $_name, $filters) {
         
         $skpattern = "/^\!(\d+) (.+)$/";
         if(preg_match($skpattern, $new_buffer, $regs)) {
-            $current_time_formatted = date('Y M d', $regs[1]); // Current File
-
+            $current_time_formatted = date('Y-m-d', $regs[1]); // Current File
             if ($previous_file_time == "") {
                 $g_last_changes{'days'}[$dayCounter] = array($regs[1]); // Add new timestamp
-                $previous_file_time = $current_time_formatted;
+                $previous_file_time = date('Y-m-d', $regs[1]);
             } else if ($previous_file_time < $current_time_formatted) {
                 $dayCounter += 1;
                 $g_last_changes{'days'}[$dayCounter] = array($regs[1]); // Add new timestamp
-                $previous_file_time = $current_time_formatted;
+                $previous_file_time = date('Y-m-d', $regs[1]);
                 $filePerDay = 0;
             }
-
-            
             $time_stamp = $regs[1]; // Seconds without format
             $sk_file_name = $regs[2]; // File Name
 
@@ -145,7 +142,6 @@ function __os_getchanges_custom($file, &$g_last_changes, $_name, $filters) {
 
         $files++;
     }
-
     fclose($fp);
     applyFilters($g_last_changes, $filters, $dayCounter);
 

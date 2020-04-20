@@ -1,4 +1,11 @@
 <?php require('includes/config.php'); ?>
+<?php require('includes/statsInit.php'); ?>
+
+<?php require('imports/all.php'); ?>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,139 +59,122 @@
             <h1 class="h3 mb-0 text-gray-800">Stats</h1>
           </div>
 
-          <!-- Card -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div id="main-stats" class="card show mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Today's Reports</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; transform: translate3d(-156px, 19px, 0px); top: 0px; left: 0px; will-change: transform;">
-                      <div class="dropdown-header">Options</div>
-                      <a class="dropdown-item" affects="main-stats" onclick="hideCard(this)">Hide</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  
-                  <h4 class="small font-weight-bold">Server Issues<span class="float-right">0%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-
-                  <h4 class="small font-weight-bold">Login Failures<span class="float-right">40%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-
-                  <h4 class="small font-weight-bold">File Modifications<span class="float-right">20%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-
-                </div>
+          <!-- Start Calendar -->
+          <div class="row-12">
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Monitoring Range</h6>
               </div>
-            </div>
-          </div>
-          <!-- End Card -->
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Alert Statistics</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <div class="chartjs-size-monitor">
-                      <div class="chartjs-size-monitor-expand">
-                        <div class="">
-                        </div>
+              <div class="card-body">
+              <form action="stats.php" method="POST">
+                <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend date">
+                        <label style="width: 150px;" class="input-group-text" for="inputGroupSelect01">Choose a Day&nbsp&nbsp<i class="far fa-calendar-alt"></i> </label>
                       </div>
-                      <div class="chartjs-size-monitor-shrink">
-                        <div class="">
-                        </div>
-                      </div>
+                      <input type="text" value="<?php if(isset($_POST['full_date'])) { echo $_POST['full_date']; } else { echo $full_date; }?>" data-provide="datepicker" name="full_date" class="form-control input-group-addon">
                     </div>
-                    <canvas id="myChart" style="display: block; height: 320px; width: 652px;" width="815" height="400" class="chartjs-render-monitor"></canvas>
                   </div>
                 </div>
-              </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success">Apply</button>
+                </div>
+              </form>
             </div>
+          </div>
+          <!-- End Calendar -->
 
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Device Usage</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <canvas id="myPieChart" width="815" height="306" class="chartjs-render-monitor" style="display: block; height: 245px; width: 652px;"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> PC
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Tablet
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Mobile
-                    </span>
+          <!-- Aggregate By Severity One Day -->
+          <div class="row-12">
+            <div class="card shadow mb-4 show">
+              <a href="#severityDay" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">Aggregate By Severity (Day)</h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="card-body collapse"id="severityDay" >
+                <div style="justify-content: center; display: flex; height: 600px;">
+                  <div id="severityChartDay">
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- End Aggregate By Severity -->
 
-          <!-- Content Row -->
-
-          <div class="row">
-
+          <!-- Aggregate By Severity One Day -->
+          <div class="row-12">
+            <div class="card shadow mb-4 show">
+              <a href="#severityMonth" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">Aggregate By Severity (Month)</h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="card-body collapse"id="severityMonth" >
+                <div style="justify-content: center; display: flex; height: 600px;">
+                  <div id="severityChartMonth">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- End Aggregate By Severity -->
 
-          <!-- Content Row -->
-          <div class="row">
-
+          <!-- Rules Toay -->
+          <div class="row-12">
+            <div class="card shadow mb-4 show">
+              <a href="#rulesDay" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">Rules (Day)</h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="card-body collapse"id="rulesDay" >
+                <?php require('includes/stats_rules_daily.php'); ?>
+              </div>
+            </div>
           </div>
+          <!-- End Rules Today -->
+
+          <!-- Rules Month -->
+          <div class="row-12">
+            <div class="card shadow mb-4 show">
+              <a href="#rulesMonth" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">Rules (Month)</h6>
+              </a>
+              <!-- Card Content - Collapse -->
+              <div class="card-body collapse"id="rulesMonth" >
+                <?php require('includes/stats_rules_monthly.php'); ?>
+              </div>
+            </div>
+          </div>
+          <!-- End Rules Month -->
+
+          <!-- Daily Alerts -->
+          <div class="row-12">
+            <div class="card shadow mb-4 show">
+              <a href="#alertsDay" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">Today's Alerts</h6>
+              </a>
+              <div class="card-body collapse show" id="alertsDay">
+                  <div id="dayChart">
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Daily Alerts -->
+          
+          <!-- Monthly Alerts -->
+          <div class="row-12">
+            <div class="card shadow mb-4">
+            <a href="#alertsMonth" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true">
+                <h6 class="m-0 font-weight-bold text-primary">This Month's Alerts</h6>
+              </a>
+              <div class="card-body collapse show" id="alertsMonth">
+                <div style="justify-content: center; display: flex; height: 600px;">
+                  <div id="monthChart">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Monthly Alerts -->
 
         </div>
         <!-- /.container-fluid -->
@@ -211,48 +201,6 @@
   <?php require('includes/logoutModal.php'); ?>
   <!-- End of Logout Modal-->
 
-  <?php require('imports/all.php'); ?>
-
 </body>
-
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [{
-            label: '# of Monthly Alerts',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
-
 </html>
+<?php include('js/stats_js.php'); ?>
