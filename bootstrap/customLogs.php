@@ -66,6 +66,9 @@
                                   <option disabled selected value="">Select a type</option>
                                   <option value="command">Command</option>
                                   <option value="localFile">Localfile</option>
+                                  <option value="dns">Dns</option>
+                                  <option value="website">Website</option>
+
                                   <!--<option value="response">Active Response</option>--->
                               </select>
                           </div>
