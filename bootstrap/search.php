@@ -53,7 +53,7 @@ $agent_list = os_getagents($ossec_handle);
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require('includes/sidePanel.php'); ?>
+    <?php $page="search"; require('includes/sidePanel.php'); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -69,18 +69,16 @@ $agent_list = os_getagents($ossec_handle);
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Search</h1>
+          <div class="card border-left-custom">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                <h1 class="h3 mb-0 text-gray-800">Search&nbsp&nbsp<i class="fas fa-search"></i></h1>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="smaller2">
-            <?php 
-              echo date('F dS Y h:i:s A');
-              if($USER_monitoring == 1)
-              {
-                  echo ' -- Refreshing every '.$ossec_refresh_time.' secs</div><br />';
-              }
-            ?>
-          </div>
+          
           </br>
           
           <!-- Content Row -->
@@ -212,12 +210,12 @@ $agent_list = os_getagents($ossec_handle);
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <?php require('includes/footer.php'); ?>
-      <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
+
+    <!-- Footer -->
+    <?php require('includes/footer.php'); ?>
+    <!-- End of Footer -->
 
   </div>
   <!-- End of Page Wrapper -->

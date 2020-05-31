@@ -14,43 +14,73 @@
       <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Heading -->
-      <div class="sidebar-heading justify-content-center">
-        Navigate
-      </div>
-
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="index.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Main</span>
+          <?php
+            if ($page == "main") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          Home&nbsp&nbsp</span><i class="fas fa-home"></i>
         </a>
       </li>
 
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="search.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Search</span>
+          <?php
+            if ($page == "search") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          Search&nbsp&nbsp</span><i class="fas fa-search"></i>
         </a>
       </li>
 
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="integrity.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Integrity Checking</span>
+        <?php
+            if ($page == "integrity") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          Integrity Checking&nbsp&nbsp</span><i class="fas fa-fingerprint"></i>
         </a>
       </li>
 
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="stats.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Stats</span>
+        <?php
+            if ($page == "stats") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          Stats&nbsp&nbsp</span><i class="fas fa-chart-bar"></i>
         </a>
       </li>
 
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="customLogs.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>Custom Logs</span>
+        <?php
+            if ($page == "custom") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          Custom Logs&nbsp&nbsp</span><i class="fas fa-file-code"></i>
         </a>
       </li>
 
@@ -98,16 +128,23 @@
       <!-- Nav Item  -->
       <li class="nav-item">
         <a class="nav-link" href="about.php" aria-expanded="true" aria-controls="collapseTwo">
-          <span>About</span>
+        <?php
+            if ($page == "about") {
+              echo('<span class="nav-text-custom-active">');
+            } else {
+              echo('<span>');
+            }
+          ?>
+          About&nbsp&nbsp</span><i class="fas fa-info"></i>
         </a>
       </li>
 
-      <!-- Divider -->
+      <!-- Divider 
       <hr class="sidebar-divider">
 
-      <!-- Sidebar Toggler (Sidebar) -->
+      Sidebar Toggler (Sidebar)
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
+      </div> -->
 
     </ul>

@@ -38,7 +38,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require('includes/sidePanel.php'); ?>
+    <?php $page="stats"; require('includes/sidePanel.php'); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -55,9 +55,17 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Stats</h1>
+          <div class="card border-left-custom">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                <h1 class="h3 mb-0 text-gray-800">Stats&nbsp&nbsp<i class="fas fa-chart-bar"></i></h1>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          </br>
 
           <!-- Start Calendar -->
           <div class="row-12">

@@ -32,7 +32,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require('includes/sidePanel.php'); ?>
+    <?php $page="main"; require('includes/sidePanel.php'); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -48,14 +48,17 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Main</h1>
+        <div class="card border-left-custom">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+              <h1 class="h3 mb-0 text-gray-800">Home&nbsp&nbsp<i class="fas fa-home"></i></h1>
+              </div>
+            </div>
           </div>
-          <?php
-           /* Printing current date */
-           echo '<div class="smaller2">'.date('F dS, Y h:i:s A').'</div><br />';
-          ?>
+        </div>
+
+        </br>
          
           <!-- Content Row -->
           <div class="row">

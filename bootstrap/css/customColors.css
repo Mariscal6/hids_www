@@ -15,3 +15,7 @@
     background-color: #9e2146;
     border-color: rgba(255,255,255,.5);
 }
+
+.border-left-custom {
+    border-left: .25rem solid #71094B!important;
+}

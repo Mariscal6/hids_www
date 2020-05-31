@@ -31,7 +31,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php require('includes/sidePanel.php'); ?>
+    <?php $page="about"; require('includes/sidePanel.php'); ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -48,14 +48,22 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">About</h1>
+          <div class="card border-left-custom">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                <h1 class="h3 mb-0 text-gray-800">About&nbsp&nbsp<i class="fas fa-info"></i></h1>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          </br>
 
           <!-- Content Row -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Updated 04/003/2020</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Updated 31/05/2020</h6>
             </div>
             <div class="card-body">
               <p>This project is being made with the OSSEC trademark, as a Univeristy project in the UCM, Spain, Madrid.</p>

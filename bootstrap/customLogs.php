@@ -31,7 +31,7 @@
   <div id="wrapper">
 
       <!-- Sidebar -->
-      <?php require('includes/sidePanel.php'); ?>
+      <?php $page="custom"; require('includes/sidePanel.php'); ?>
       <!-- End of Sidebar -->
 
       <div id="content-wrapper" class="d-flex flex-column">
@@ -47,6 +47,17 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+          <div class="card border-left-custom">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                <h1 class="h3 mb-0 text-gray-800">Custom Logs&nbsp&nbsp<i class="fas fa-file-code"></i></h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          </br>
 
           <form id="filterForm" action="" method="POST">
             <!-- Start Card -->
@@ -89,15 +100,18 @@
               <div>
             </div>
             </form>
-        
-        <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <?php require('includes/footer.php'); ?>
-        <!-- End of Footer -->
+          </div>
+        </div>
+      </div>
+        <!-- End of Main Content -->
 
     </div>
     <!-- End of Content Wrapper -->
+
+    <!-- Footer -->
+    <?php require('includes/footer.php'); ?>
+    <!-- End of Footer -->
 
   </div>
   <!-- End of Page Wrapper -->
