@@ -63,11 +63,11 @@
           <!-- Content Row -->
           <div class="row">
             <div class="col-xl-6 col-md-6 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
+              <div class="card shadow mb-4">
                 <div class="card-header">
                   <h6 class="m-0 font-weight-bold text-primary">Available Agents</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="height: 184px;">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                     <?php
@@ -79,7 +79,7 @@
               </div>
             </div>
             <div class="col-xl-6 col-md-6 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
+              <div class="card shadow mb-4">
                 <div class="card-header">
                   <h6 class="m-0 font-weight-bold text-primary">Latest Modified Files</h6>
                 </div>
