@@ -110,88 +110,79 @@ $agent_list = os_getagents($ossec_handle);
                 <div class="card-body">
                 <ul class="list-group list-group-flush">
                 <?php
-                if((!isset($USER_init) || !isset($USER_final) || !isset($USER_level))): ?>
-                  <p class="text-danger">No search performed.</p>
-                <?php endif;
-                
-                if($_POST['search'] != "Search")
-                {
-                  $output_list = os_getstoredalerts($ossec_handle, $USER_searchid);
-                  $used_stored = 1;
-                }
-                
-                /* Searching for new ones */
-                else
-                {
-                    /* Getting alerts */
-                    
-                    $output_list = os_searchalerts($ossec_handle, $USER_searchid,
-                                                   $USER_init, $USER_final,
-                                                   $ossec_max_alerts_per_page,
-                                                   $USER_level,$USER_rule, $LOCATION_pattern,
-                                                   $USER_pattern, $USER_group,
-                                                   $USER_srcip, $USER_user,
-                                                   $USER_log);
-                }
-                if($output_list == NULL || $output_list[1] == NULL)
-                {
-                    if($used_stored == 1)
-                    {
-                        echo "<b class='red'>Nothing returned (search expired). </b><br />\n";
-                    }
-                    else
-                    {
+                $flag = true;
+                if ((!isset($USER_init) || !isset($USER_final) || !isset($USER_level))) {
+                  echo '<p class="text-danger">No search performed.</p>';
+                } else {
+                  if($_POST['search'] != "Search") {
+                    $output_list = os_getstoredalerts($ossec_handle, $USER_searchid);
+                    $used_stored = 1;
+                  } else { /* Searching for new ones */
+                      /* Getting alerts */
+                      
+                      $output_list = os_searchalerts($ossec_handle, $USER_searchid,
+                                                    $USER_init, $USER_final,
+                                                    $ossec_max_alerts_per_page,
+                                                    $USER_level,$USER_rule, $LOCATION_pattern,
+                                                    $USER_pattern, $USER_group,
+                                                    $USER_srcip, $USER_user,
+                                                    $USER_log);
+                  }
+
+                  if ($output_list == NULL || $output_list[1] == NULL) {
+                      if($used_stored == 1) {
+                          echo "<b class='red'>Nothing returned (search expired). </b><br />\n";
+                      } else {
+                          echo "<b class='red'>Nothing returned. </b><br />\n";
+                      }
+                      $flag = false;
+                  } else {
+                      /* Checking for no return */
+                      if(!isset($output_list[0]{'count'})) {
                         echo "<b class='red'>Nothing returned. </b><br />\n";
+                        $flag = false;
                     }
-                    return(1);
-                }
-                
-                
-                /* Checking for no return */
-                if(!isset($output_list[0]{'count'}))
-                {
-                    echo "<b class='red'>Nothing returned. </b><br />\n";
-                    return(1);
-                }
-                
-                
-                /* Checking maximum page size */
-                if($USER_page >= $output_list[0]{'pg'})
-                {
-                    $USER_page = $output_list[0]{'pg'};
-                }
-                
-                /* Page 1 will become the latest and the latest, page 1 */
-                $real_page = ($output_list[0]{'pg'} + 1) - $USER_page;
-                
-                
-                echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
-                
-                require('includes/pagesSearch.php');
-                /* Checking if page exists */
-                if(!isset($output_list[0]{$real_page}) ||
-                   (strlen($output_list[$real_page]) < 5) ||
-                   (!file_exists($output_list[$real_page])))
-                {
-                    echo "<b class='red'>Nothing returned (or search expired). </b><br />\n";
-                    return(1);
-                }
-                
-                echo "<br /><br />";
-                $fp = fopen($output_list[$real_page], "r");
-                if($fp)
-                {
-                    while(!feof($fp))
-                    {
-                        echo fgets($fp);
+                    
+                    
+                    /* Checking maximum page size */
+                    if($USER_page >= $output_list[0]{'pg'}) {
+                        $USER_page = $output_list[0]{'pg'};
                     }
-                }
-                ?>
-                
-                  </li>
-                  <li class="list-group-item">
-                    <h2 class="card-title"> Resume </h2>
-                  </li>
+                    
+                    /* Page 1 will become the latest and the latest, page 1 */
+                    $real_page = ($output_list[0]{'pg'} + 1) - $USER_page;
+                    
+                    
+                    echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
+                    
+                    require('includes/pagesSearch.php');
+                    /* Checking if page exists */
+                    if(!isset($output_list[0]{$real_page}) ||
+                      (strlen($output_list[$real_page]) < 5) ||
+                      (!file_exists($output_list[$real_page]))) {
+                        echo "<b class='red'>Nothing returned (or search expired). </b><br />\n";
+                        $flag = false;
+                    }
+                    
+                    echo "<br /><br />";
+                    $fp = fopen($output_list[$real_page], "r");
+                    if ($fp) {
+                        while (!feof($fp)) {
+                            echo fgets($fp);
+                        }
+                    }
+                    ?>
+                    
+                      </li>
+                      <?php
+                      if ($flag) {
+                        echo '<li class="list-group-item">
+                          <h2 class="card-title"> Resume </h2>
+                        </li>';
+                      }
+                    }
+                  }
+                  ?>
                 </ul>
                 
                 </div>
@@ -199,23 +190,16 @@ $agent_list = os_getagents($ossec_handle);
             </div>
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
-
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
+        
       </div>
       <!-- End of Main Content -->
-
+      <!-- Footer -->
+      <?php require('includes/footer.php'); ?>
+      <!-- End of Footer -->
     </div>
     <!-- End of Content Wrapper -->
 
-    <!-- Footer -->
-    <?php require('includes/footer.php'); ?>
-    <!-- End of Footer -->
+    
 
   </div>
   <!-- End of Page Wrapper -->
