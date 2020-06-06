@@ -31,7 +31,10 @@ if(($syscheck_list == NULL) || ($syscheck_list{'global_list'} == NULL)) {
                         <div class="card-body">
                             <b>File name: '.$file_name.'</b><br>';
                             echo '<b>Agent: '.$file_agent.'</b><br>';
-                            echo '<b>Modification time: '.date('Y M d H:i:s', $file_time).'</b>';
+                            echo '<b>Modification time: '.date('Y M d H:i:s', $file_time).'</b><br><br>';
+                            echo '<button type="button" fileName="'.$file_name.'" onclick="loadSpecificChecksum(this);" class="btn btn-primary custom-btn" data-toggle="modal" data-target="#myModal">
+                            Verify Checksum
+                          </button>';
                     echo '</div>
                         </div>
                     </div>

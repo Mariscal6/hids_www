@@ -86,7 +86,7 @@ function __os_getchanges_custom($file, &$g_last_changes, $_name, $filters) {
     if($fp === FALSE) {
         return(NULL);
     }
-    fseek($fp, -12000, SEEK_END);
+    fseek($fp, -120000, SEEK_END);
 
     /* Cleaning up first entry */
     $time_stamp = date('Y M d');

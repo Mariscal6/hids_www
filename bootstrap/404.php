@@ -32,7 +32,6 @@
 
       <!-- Sidebar -->
       <?php require('includes/sidePanel.php'); ?>
-      <?php echo('hola'); ?>
       <!-- End of Sidebar -->
 
       <div id="content-wrapper" class="d-flex flex-column">

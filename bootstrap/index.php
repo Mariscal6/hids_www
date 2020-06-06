@@ -65,9 +65,9 @@
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card shadow mb-4">
                 <div class="card-header">
-                  <h6 class="m-0 font-weight-bold text-primary">Available Agents</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Available Agents&nbsp&nbsp<i class="fas fa-server"></i></h6>
                 </div>
-                <div class="card-body" style="height: 184px;">
+                <div class="card-body" style="min-height: 208px;">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                     <?php
@@ -81,9 +81,9 @@
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card shadow mb-4">
                 <div class="card-header">
-                  <h6 class="m-0 font-weight-bold text-primary">Latest Modified Files</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Latest Modified Files&nbsp&nbsp<i class="far fa-file-code"></i></h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="min-height: 208px;">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                     <?php
@@ -101,13 +101,13 @@
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color:#eaecf4">
-                  <h6 class="m-0 font-weight-bold text-primary" style="color:#71094b"> Latest Events</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Latest Events&nbsp&nbsp<i class="fas fa-digital-tachograph"></i></h6>
                 </div>
                 <div class="p-4"> 
-                      <?php 
-                      listAlert($ossec_handle)
-                    ?>  
-                    </div>
+                  <?php 
+                    listAlert($ossec_handle)
+                  ?>  
+                </div>
               </div>
             </div>
           </div>
@@ -145,7 +145,6 @@
   <!-- End of Logout Modal-->
 
   <?php require('imports/all.php'); ?>
-
 
   <script type="text/javascript" src="js/calendar.js"></script>
   <script type="text/javascript" src="js/calendar-en.js"></script>

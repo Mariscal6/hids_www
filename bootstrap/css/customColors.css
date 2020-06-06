@@ -19,3 +19,9 @@
 .border-left-custom {
     border-left: .25rem solid #71094B!important;
 }
+
+.btn-primary.custom-btn:hover,  .btn-primary.custom-btn:focus {
+    color: #fff;
+    background-color: #e73b3b;
+    border-color: rgba(255,255,255,.5);
+}

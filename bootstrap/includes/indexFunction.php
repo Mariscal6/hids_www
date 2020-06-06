@@ -40,22 +40,22 @@ function showAgents($ossec_handle){
         echo '
             <span id="toggleagt'.$agent_count.'"> 
                 <a href="#" '.$aclass.' title="'.$atitle.'" 
-                    onclick="ShowSection(\'agt'.$agent_count.'\');return false;"> +'.
+                    onclick="ShowSection(\'agt'.$agent_count.'\');return false;"><i class="far fa-caret-square-down"></i>&nbsp&nbsp'.
                     $agent{'name'}." (".$agent{'ip'}.')'.$amsg.'
-                </a><br> 
+                    </a><br> 
             </span>
 
             <div id="contentagt'.$agent_count.'" style="display: none">
                 <a href="#" '.$aclass.' title="'.$atitle.'" 
-                    onclick="HideSection(\'agt'. $agent_count.'\');return false;" >- '.$agent{'name'}." (".$agent{'ip'}.')'.$amsg.'
+                    onclick="HideSection(\'agt'. $agent_count.'\');return false;" ><i class="far fa-caret-square-up"></i>&nbsp&nbsp'.$agent{'name'}." (".$agent{'ip'}.')'.$amsg.'
                 </a>
                 <br>
                 <div class="smaller">
-                    <b>Name:</b> '.$agent{'name'}.'<br>
-                    <b>IP:</b> '.$agent{'ip'}.'<br>
-                    <b>Last keep alive:</b> '.
+                &nbsp&nbsp<b>Name:</b> '.$agent{'name'}.'<br>
+                &nbsp&nbsp<b>IP:</b> '.$agent{'ip'}.'<br>
+                &nbsp&nbsp<b>Last keep alive:</b> '.
                     date('Y M d H:i:s', $agent{'change_time'}).'<br>
-                    <b>OS:</b> '.$agent{'os'}.'<br>
+                    &nbsp&nbsp<b>OS:</b><span> '.$agent{'os'}.'</span><br>
                 </div>
             </div>
             ';
@@ -108,7 +108,7 @@ function showLastModified($ossec_handle){
                echo '
                    <span id="togglesk'.$sk_count.'">
                    <a  href="#" class="bluez" title="Expand '.$syscheck[2].'" 
-                   onclick="ShowSection(\'sk'.$sk_count.'\');return false;">+'.
+                   onclick="ShowSection(\'sk'.$sk_count.'\');return false;"><i class="far fa-caret-square-down"></i>&nbsp&nbsp'.
                    $ffile_name.'</a><br /> 
                    </span>
     
@@ -116,7 +116,7 @@ function showLastModified($ossec_handle){
     
                    <a  href="#" title="Hide '.$syscheck[2].'" 
                    onclick="HideSection(\'sk'.
-                   $sk_count.'\');return false;">-'.$ffile_name.'</a>
+                   $sk_count.'\');return false;"><i class="far fa-caret-square-up"></i>&nbsp&nbsp'.$ffile_name.'</a>
                    <br />
                    <div class="smaller">
                    &nbsp;&nbsp;<b>File:</b> '.$ffile_name.'<br />';
@@ -161,13 +161,13 @@ function listAlert($ossec_handle){
         while($alert_count >= 0)
         {
             echo '<div class="card shadow mb-4">
-                    <div class="card-header py-3">';
-                    echo $alert_array[$alert_count]->titleToHtml();
-                     
-            echo '</div>
+                <a href="#collapseCard'.$alert_count.'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCard'.$alert_count.'">
+                    <h6 class="m-0 font-weight-bold text-primary">'.$alert_array[$alert_count]->titleToHtml().'</h6>
+                </a>
+                <div class="collapse" id="collapseCard'.$alert_count.'"
                     <div class="card-body">';
-                    echo $alert_array[$alert_count]->toHtml();
-             echo'</div></div>';
+                        echo $alert_array[$alert_count]->toHtml();
+                echo'</div></div>';
             $alert_count--;
         }
     }

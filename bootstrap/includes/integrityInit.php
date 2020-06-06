@@ -15,6 +15,8 @@ if(isset($_POST['agentpattern']))
         $USER_agent = $_POST['agentpattern'];
         $u_agent = $USER_agent;
     }
+} else {
+    $USER_agent = 'ossec-server';
 }
 if(isset($_POST['filepattern']))
 {
@@ -55,6 +57,22 @@ array(
 )
 
 */
+
+// Load Database for Integrity Checking
+
+/* Dumping database */
+
+$db_changes = os_syscheck_dumpdb_custom($ossec_handle, $USER_agent);
+// $toPrint = array_search('/etc/libreoffice/psprint.conf', array_column($agentInfo, 'name'));
+$i = 0;
+foreach ($db_changes as $name) {
+    if ($name[$i]['changed'] == 0) {
+        unset($name[$i]);
+    } else {
+        // print_r($name);
+    }
+    $i++;
+}
 
 // Filters fetch
 

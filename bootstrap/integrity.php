@@ -28,6 +28,32 @@
 
 <body id="page-top">
 
+
+  <!-- Dump Database Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" style="display: block;" >
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">File Integrity</h4>
+          </div>
+          <div class="modal-body">
+            <div class="" id="nof"></div>
+            <hr>
+            <div class="" id="md5"></div>
+            <hr>
+            <div class="" id="sha1"></div>
+            <hr>
+            <div class="" id="size"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>      
+      </div>
+  </div>
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -67,7 +93,7 @@
           </div>
 
           <!-- Content Row -->
-          <form name="dosearch" method="post" action="index.php?f=i">
+          <form name="dosearch" method="post" action="integrity.php">
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
@@ -97,17 +123,7 @@
                       </div>
                 </div>
                 <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
-                  <?php
-                      /* Dumping database */
-                      if( array_key_exists( 'ss', $_POST ) ) {
-                        if(($_POST['ss'] == "Dump database") && ($USER_agent != NULL))
-                        {
-                            os_syscheck_dumpdb($ossec_handle, $USER_agent);
-                            return(1);
-                        }
-                      }
-                  ?>
-                  <button type="submit" name="ss" class="btn btn-success">Dump database</button>
+                  <button type="submit" name="ss" class="btn btn-success">Apply Agent</button>
                 </div>
               </div>
             </div>
@@ -230,7 +246,85 @@
   <!-- End of Logout Modal-->
 
   <?php require('imports/all.php'); ?>
+  <script src="js/integrity.js"></script>
 
 </body>
 
 </html>
+
+<script>
+
+function loadSpecificChecksum(element) {
+    var path = element.getAttribute('fileName');
+
+    var array = <?php  echo json_encode($db_changes);?>;
+    var name = "";
+    var md5 = "";
+    var sha1 = "";
+    var size = 0;
+    for (var i = 0; i < array.length; i++) {
+      if (array[i][i].name == path) {
+        name = array[i][i].name;
+        md5 = array[i][i].sum;
+        size = array[i][i].size;
+        break;
+      }
+    }
+
+    md5 = md5.split('->');
+    size = size.split('->');
+
+    var allMD5 = [];
+    var allSHA1 = [];
+    var allSizes = size;
+
+    for (var i = 0; i < md5.length; i++) {
+      var fila = md5[i].split(' ');
+      allMD5.push(fila[1]);
+      allSHA1.push(fila[3]);
+    }
+
+    var icon = '<p style="color: red; text-align: center;"><i class="fas fa-angle-double-down"></i></p>';
+
+    var nof = document.getElementById('nof');
+    nof.innerHTML = "<h2>File Directory:</h2><br>"
+     + "<h4 style='text-align: center;'>" + name + "</h4>";
+
+    var md5Div = document.getElementById('md5');
+    var html = "<h2>MD5 History:</h2><br>";
+    
+    for (var i = 0; i < allMD5.length; i++) {
+      html += '<h5 style="text-align: center;">' + allMD5[i] + '</h5>';
+      if (i != allMD5.length - 1) {
+        html += icon;
+      }
+    }
+
+    md5Div.innerHTML = html;
+
+    var sha1Div = document.getElementById('sha1');
+    html = "<h2>SHA1 History:</h2><p><br>";
+    for (var i = 0; i < allSHA1.length; i++) {
+      html += '<h5 style="text-align: center;">' + allSHA1[i] + '</h5>';
+      if (i != allSHA1.length - 1) {
+        html += icon;
+      }
+    }
+
+    sha1Div.innerHTML = html;
+    
+    var sizeDiv = document.getElementById('size');
+    html = "<h2>Size History:</h2><br>";
+
+    for (var i = 0; i < allSizes.length; i++) {
+      html += '<h5 style="text-align: center;">' + allSizes[i] + '</h5>';
+      if (i != allSizes.length - 1) {
+        html += icon;
+      }
+    }
+
+    sizeDiv.innerHTML = html;
+
+}
+
+</script>
