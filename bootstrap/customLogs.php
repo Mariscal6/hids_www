@@ -59,7 +59,7 @@
           
           </br>
 
-          <form id="filterForm" action="" method="POST">
+          <form id="filterForm" action="./includes/customAdd.php" method="POST" enctype="multipart/form-data">
             <!-- Start Card -->
             <div class="row">
               <div class="col-lg-12">
@@ -67,13 +67,13 @@
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filters</h6>
                   </div>
-                  <div class="card-body">
+                  <div id="main_div" class="card-body">
                       <div class="row">
                           <div class="input-group">
                               <div class="input-group-prepend">
                                   <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Type:</label>
                               </div>
-                              <select id="dayOrder" class="custom-select" name="dayOrder" onchange="changeType(this);">
+                              <select id="dayOrder" class="custom-select" name="type" onchange="changeType(this);">
                                   <option disabled selected value="">Select a type</option>
                                   <option value="command">Command</option>
                                   <option value="localFile">Localfile</option>
@@ -92,14 +92,17 @@
                       <div class="row" id="secondLocalFile">
         
                       </div>
+
                   </div>
                   <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
-                    <button type="submit" disabled class="btn btn-success" title="Not all fields are complete">Add Register</button>
+                    <button id="submitRules"type="submit" disabled class="btn btn-success" title="Not all fields are complete">Add Register</button>
                   </div>
                 </div>
               <div>
             </div>
-            </form>
+          </form>
+        
+        <!-- End of Main Content -->
 
           </div>
         </div>
@@ -130,3 +133,4 @@
 </body>
 
 </html>
+

@@ -6,6 +6,8 @@ function changeType(element) {
 
     htmlSection.innerHTML = "";
 
+    document.getElementById('submitRules').disabled = false;
+
     switch (element.options[element.selectedIndex].value) {
 
         case 'command':
@@ -34,19 +36,17 @@ function changeType(element) {
 
 
 
-        //case 'response':
+            //case 'response':
 
-        //    generateResponseHTML(htmlSection);
+            //    generateResponseHTML(htmlSection);
 
-        //    break;
+            //    break;
 
     }
 
 }
 
-
-
-function generateDNSHTML(element){
+function generateDNSHTML(element) {
 
 
 
@@ -94,9 +94,7 @@ function generateDNSHTML(element){
 
 }
 
-
-
-function generateWebsiteHTML(element){
+function generateWebsiteHTML(element) {
 
 
 
@@ -144,12 +142,6 @@ function generateWebsiteHTML(element){
 
 }
 
-
-
-
-
-
-
 function generateCommandHTML(element) {
 
 
@@ -159,9 +151,7 @@ function generateCommandHTML(element) {
         "name": {
 
             "name": "Name",
-
             "info": "Used to link the command to the response.",
-
             "ossec_name": "name"
 
         },
@@ -169,9 +159,7 @@ function generateCommandHTML(element) {
         "exe": {
 
             "name": "Executable",
-
             "info": "It must be a file (with exec permissions) inside “/var/ossec/active-response/bin”. You don’t need to provide the whole path.",
-
             "ossec_name": "executable"
 
         },
@@ -179,9 +167,7 @@ function generateCommandHTML(element) {
         "expect": {
 
             "name": "Expect",
-
             "info": "The arguments this command is expecting (options are srcip and username).",
-
             "ossec_name": "expect"
 
         },
@@ -189,10 +175,15 @@ function generateCommandHTML(element) {
         "timeout": {
 
             "name": "Timeout allowed",
-
             "info": "Specifies if this command supports timeout. Yes or No",
-
             "ossec_name": "timeout_allowed"
+
+        },
+
+        "response_active": {
+            "name": "Response Active",
+            "info": "Specifies if this command supports timeout. Yes or No",
+            "ossec_name": "response_active"
 
         },
 
@@ -252,9 +243,9 @@ function generateCommandHTML(element) {
 
         <div class="custom-file">
 
-            <input required type="file" accept=".sh" class="custom-file-input" id="executable" name="` + tags.exe.ossec_name + `">
+            <input required type="file" accept=".sh" class="custom-file-input" id="executable" name="` + tags.exe.ossec_name + `[]" multiple>
 
-            <label class="custom-file-label" for="customFile">Choose .sh file</label>
+            <label id="files_names" class="custom-file-label" for="customFile">Choose .sh file</label>
 
         </div>
 
@@ -292,7 +283,7 @@ function generateCommandHTML(element) {
 
     <div class="input-group mb-3">
 
-    <div class="input-group-prepend">
+        <div class="input-group-prepend">
 
             <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
 
@@ -304,12 +295,24 @@ function generateCommandHTML(element) {
 
         </div>
 
-        <select id="` + tags.timeout.name + `" class="custom-select" name="` + tags.timeout.ossec_name + `">
+        <select id="` + tags.timeout.name + `" class="custom-select" name="` + tags.timeout.ossec_name + `" style="width: 200px;border-bottom-right-radius: 0.3em; border-top-right-radius: 0.3em;">
 
             <option disabled selected value="">Allow</option>
-
             <option value="yes">Yes</option>
+            <option value="no">No</option>
 
+        </select>
+
+        <div class="input-group-prepend ml-2 ">
+
+            <label style="width: 200px;border-bottom-left-radius: 0.3em; border-top-left-radius: 0.3em;" class="input-group-text" for="inputGroupSelect01">Active Response:</label>
+
+         </div>
+        
+        <select required id="active_response" class="custom-select" name="active_response" onchange="generateCommandHTMLSecond(this)">
+
+            <option disabled selected value="">Active Response</option>
+            <option value="yes">Yes</option>
             <option value="no">No</option>
 
         </select>
@@ -319,6 +322,124 @@ function generateCommandHTML(element) {
 
 
     element.innerHTML = html;
+    changeInputFile();
+
+}
+
+function generateCommandHTMLSecond(element) {
+
+    var tags = {
+
+        "disabled": {
+            "name": "Disabled",
+            "info": "Disables the active response capabilities if set to yes. If this is set, active response will not work.",
+            "ossec_name": "disabled"
+        },
+
+        "location": {
+            "name": "Location",
+            "info": "Where the command should be executed. You have four options:local,server,defined-agent,all",
+            "ossec_name": "location"
+        },
+
+        "rules_id": {
+            "name": "Rules id",
+            "info": "Comma separated list of rules id (0-9)",
+            "ossec_name": "rules_id"
+        },
+        "level": {
+            "name": "Level",
+            "info": "The response will be executed on any event with this level or higher",
+            "ossec_name": "level"
+        },
+    }
+    var propsLocation = {
+
+        "local": {
+            "name": "Local",
+            "ossec_name": "local"
+        },
+        "server": {
+            "name": "Server",
+            "ossec_name": "server"
+        },
+        "definedagent": {
+            "name": "Defined agent",
+            "ossec_name": "defined-agent"
+        },
+        "all": {
+            "name": "All",
+            "ossec_name": "all"
+        }
+    }
+
+
+    var htmlSection = document.getElementById('secondLocalFile');
+
+    switch (element.options[element.selectedIndex].value) {
+
+        case 'yes':
+
+            htmlSection.innerHTML = `
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.disabled.info + `" style="margin-right:6px;"></i> ` + tags.disabled.name + ` : 
+                    </label>
+                </div>
+
+                <select required id="disabled" class="custom-select" name="disabled">
+                    <option disabled selected value="">Allow</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                    <i class="fas fa-info-circle" title="` + tags.location.info + `" style="margin-right:6px;"></i>
+                    ` + tags.location.name + ` :
+                    </label>
+                </div>
+
+                <select required id="dayOrder" class="custom-select" name="location">
+                    <option select value="` + propsLocation.local.ossec_name + `"> ` + propsLocation.local.name + `</option>
+                    <option value="` + propsLocation.server.ossec_name + `">` + propsLocation.server.name + `</option>
+                    <option value="` + propsLocation.definedagent.ossec_name + `">` + propsLocation.definedagent.name + `</option>
+                    <option value="` + propsLocation.all.ossec_name + `">` + propsLocation.all.name + `</option>
+                </select>
+
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.rules_id.info + `" style="margin-right:6px;"></i>
+                    ` + tags.rules_id.name + ` : 
+                    </label>
+                </div>
+                <input required id="maxDays" type="number" min="0" class="form-control" name="` + tags.rules_id.ossec_name + `" value="">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">
+                        <i class="fas fa-info-circle" title="` + tags.level.info + `" style="margin-right:6px;"></i>
+                    ` + tags.level.name + ` : 
+                    </label>
+                </div>
+                <input required id="maxDays" type="number" min="0" class="form-control" name="` + tags.level.ossec_name + `" value="">
+            </div>
+            `;
+
+            break;
+        case 'no':
+            htmlSection.innerHTML = "";
+
+    }
 
 
 
@@ -327,8 +448,6 @@ function generateCommandHTML(element) {
 // https://www.php.net/manual/es/function.shell-exec.php
 
 function generateLocalFileHTML(element) { // Comandos Consola / Ficheros
-
-
 
     html = `
 
@@ -340,7 +459,7 @@ function generateLocalFileHTML(element) { // Comandos Consola / Ficheros
 
         </div>
 
-        <select required id="" class="custom-select" name="log_format" onchange="generateLocalFileHTMLSecond(this)">
+        <select required id="" class="custom-select" name="type_format" onchange="generateLocalFileHTMLSecond(this)">
 
             <option disabled selected value="">Type Format</option>
 
@@ -362,13 +481,7 @@ function generateLocalFileHTML(element) { // Comandos Consola / Ficheros
 
 }
 
-
-
 function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
-
-
-
-
 
     var tags = {
 
@@ -445,8 +558,6 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
 
     }
-
-
 
     var propsLogFormat = {
 
@@ -532,8 +643,6 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
     }
 
-
-
     var htmlSection = document.getElementById('secondLocalFile');
 
     htmlSection.innerHTML = "";
@@ -543,8 +652,6 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
         case 'command':
 
             htmlSection.innerHTML = `
-
-
 
             <div class="input-group mb-3">
 
@@ -560,7 +667,7 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
                 </div>
 
-                <select required id="dayOrder" class="custom-select" name="dayOrder">
+                <select required id="dayOrder" class="custom-select" name="logFormat">
 
                     <option value="` + propsLogFormat.command.ossec_name + `">` + propsLogFormat.command.name + `</option>
 
@@ -650,7 +757,7 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
                 </div>
 
-                <select required id="dayOrder" class="custom-select" name="dayOrder">
+                <select required id="dayOrder" class="custom-select" name="logFormat">
 
                     <option select value="` + propsLogFormat.syslog.ossec_name + `"> ` + propsLogFormat.syslog.name + `</option>
 
@@ -688,7 +795,7 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
 
                 <div class="custom-file">
 
-                    <input required type="file" accept=".log" class="custom-file-input" id="customFile" name="` + tags.location.ossec_name + `">
+                    <input required type="file" accept=".log" class="custom-file-input" id="customFile" name="` + tags.location.ossec_name + `[]" multiple>
 
                     <label class="custom-file-label" for="customFile">Choose .log file</label>
 
@@ -751,200 +858,9 @@ function generateLocalFileHTMLSecond(element) { // Comandos Consola / Ficheros
             break;
 
     }
-
-
+    changeInputFile();
 
 }
-
-
-
-function generateResponseHTML(element) {
-
-
-
-    var allowedFormats = [
-
-        "disabled",
-
-        "command",
-
-        "location",
-
-        "agent_id",
-
-        "level",
-
-        "timeout"
-
-    ];
-
-
-
-    var allowedNames = [
-
-        "Disabled",
-
-        "Command",
-
-        "Location",
-
-        "Agent_id",
-
-        "Level",
-
-        "Timeout"
-
-    ];
-
-
-
-    var allowedLocationFormat = [
-
-        "local",
-
-        "server",
-
-        "defined-agent",
-
-        "all",
-
-    ];
-
-
-
-
-
-    html = `
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[0] + `: </label>
-
-        </div>
-
-        <select id="dayOrder" class="custom-select" name="dayOrder">
-
-                    <option value select="no">No</option>
-
-                    <option value="yes">Yes</option>
-
-        </select>
-
-    </div>
-
-    <br>
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[1] + `: </label>
-
-        </div>
-
-        <div class="custom-file">
-
-            <input required id="maxDays" type="text" class="form-control" name="" value="">
-
-        </div>
-
-    </div>
-
-    <br>
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[2] + `: </label>
-
-        </div>
-
-        <select required id="dayOrder" class="custom-select" name="dayOrder">
-
-            <option disabled selected value="">Select a type</option>
-
-            <option value="` + allowedLocationFormat[0] + `">Local</option>
-
-            <option value="` + allowedLocationFormat[1] + `">Server</option>
-
-            <option value="` + allowedLocationFormat[2] + `">Defined agent</option>
-
-            <option value="` + allowedLocationFormat[3] + `">All</option>
-
-        </select>
-
-    </div>
-
-    <br>
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[3] + `: </label>
-
-        </div>
-
-        <div class="custom-file">
-
-            <input required id="maxDays" type="number" class="form-control" name="" value="">
-
-        </div>
-
-    </div>
-
-    <br>
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[4] + `: </label>
-
-        </div>
-
-        <div class="custom-file">
-
-            <input required id="maxDays" type="number" class="form-control" name="" value="">
-
-        </div>
-
-    </div>
-
-<br>
-
-    <div class="input-group mb-3">
-
-        <div class="input-group-prepend">
-
-            <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">` + allowedNames[5] + `: </label>
-
-        </div>
-
-        <div class="custom-file">
-
-            <input required id="maxDays" type="number" class="form-control" name="" value="">
-
-        </div>
-
-    </div>
-
-    
-
-    `;
-
-
-
-    element.innerHTML = html;
-
-
-
-}
-
-
 
 $(".custom-file-input").on("change", function() {
 
@@ -954,402 +870,8 @@ $(".custom-file-input").on("change", function() {
 
 });
 
-
-
-// Subir archivo explorador de archivos: https://www.w3schools.com/php/php_file_upload.asp
-
-
-
-
-
-//UTIL.SH   situado en var/ossec/bin
-
-// como funciona https://www.ossec.net/docs/docs/programs/util.sh.html
-
-/*
-
-
-
-#!/bin/sh
-
-# Simple utilities
-
-# Add a new file
-
-# Add a new remote host to be monitored via lynx
-
-# Add a new remote host to be monitored (DNS)
-
-# Add a new command to be monitored
-
-# by Daniel B. Cid - dcid ( at ) ossec.net
-
-
-
-ACTION=$1
-
-FILE=$2
-
-FORMAT=$3
-
-
-
-if ! [ -e /etc/ossec-init.conf ]; then
-
-    echo OSSEC Manager not found. Exiting...
-
-    exit 1
-
-fi
-
-
-
-. /etc/ossec-init.conf
-
-
-
-if [ "X$FILE" = "X" ]; then
-
-    echo "$0: addfile <filename> [<format>]"
-
-    echo "$0: addsite <domain>"
-
-    echo "$0: adddns  <domain>"
-
-    #echo "$0: addcommand <command>"
-
-    echo ""
-
-    #echo "Example: $0 addcommand 'netstat -tan |grep LISTEN| grep -v 127.0.0.1'"
-
-    echo "Example: $0 adddns ossec.net"
-
-    echo "Example: $0 addsite dcid.me"
-
-    exit 1;
-
-fi
-
-
-
-if [ "X$FORMAT" = "X" ]; then
-
-    FORMAT="syslog"
-
-fi
-
-
-
-# Adding a new file
-
-if [ $ACTION = "addfile" ]; then
-
-    # Checking if file is already configured
-
-    grep "$FILE" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
-
-    if [ $? = 0 ]; then
-
-        echo "$0: File $FILE already configured at ossec."
-
-        exit 1;
-
-    fi
-
-
-
-    # Checking if file exist
-
-    ls -la $FILE > /dev/null 2>&1
-
-    if [ ! $? = 0 ]; then
-
-        echo "$0: File $FILE does not exist."
-
-        exit 1;
-
-    fi     
-
-    
-
-    echo "
-
-    <ossec_config>
-
-      <localfile>
-
-      <log_format>$FORMAT</log_format>
-
-      <location>$FILE</location>
-
-     </localfile>
-
-   </ossec_config>  
-
-   " >> ${DIRECTORY}/etc/ossec.conf
-
-
-
-   echo "$0: File $FILE added.";
-
-   exit 0;            
-
-fi
-
-
-
-
-
-# Adding a new DNS check
-
-if [ $ACTION = "adddns" ]; then
-
-   COMMAND="host -W 5 -t NS $FILE; host -W 5 -t A $FILE | sort"
-
-   echo $FILE | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
-
-   if [ $? = 1 ]; then
-
-      echo "$0: Invalid domain: $FILE"
-
-      exit 1;
-
-   fi
-
-
-
-   grep "host -W 5 -t NS $FILE" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
-
-   if [ $? = 0 ]; then
-
-       echo "$0: Already configured for $FILE"
-
-       exit 1;
-
-   fi
-
-
-
-   MYERR=0
-
-   echo "
-
-   <ossec_config>
-
-   <localfile>
-
-     <log_format>full_command</log_format>
-
-     <command>$COMMAND</command>
-
-   </localfile>
-
-   </ossec_config>
-
-   " >> ${DIRECTORY}/etc/ossec.conf || MYERR=1;
-
-
-
-   if [ $MYERR = 1 ]; then
-
-       echo "$0: Unable to modify the configuration file."; 
-
-       exit 1;
-
-   fi
-
-
-
-   FIRSTRULE="150010"
-
-   while [ 1 ]; do
-
-       grep "\"$FIRSTRULE\"" ${DIRECTORY}/rules/local_rules.xml > /dev/null 2>&1
-
-       if [ $? = 0 ]; then
-
-           FIRSTRULE=`expr $FIRSTRULE + 1`
-
-       else
-
-           break;
-
-       fi
-
-   done
-
-
-
-
-
-   echo "
-
-   <group name=\"local,dnschanges,\">
-
-   <rule id=\"$FIRSTRULE\" level=\"0\">
-
-     <if_sid>530</if_sid>
-
-     <check_diff />
-
-     <match>^ossec: output: 'host -W 5 -t NS $FILE</match>
-
-     <description>DNS Changed for $FILE</description>
-
-   </rule>
-
-   </group>
-
-   " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
-
-
-
-   if [ $MYERR = 1 ]; then
-
-       echo "$0: Unable to modify the local rules file.";
-
-       exit 1;
-
-   fi
-
-
-
-   echo "Domain $FILE added to be monitored."
-
-   exit 0;
-
-fi
-
-
-
-
-
-# Adding a new lynx check
-
-if [ $ACTION = "addsite" ]; then
-
-   COMMAND="lynx --connect_timeout 10 --dump $FILE | head -n 10"
-
-   echo $FILE | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
-
-   if [ $? = 1 ]; then
-
-      echo "$0: Invalid domain: $FILE"
-
-      exit 1;
-
-   fi
-
-
-
-   grep "lynx --connect_timeout 10 --dump $FILE" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
-
-   if [ $? = 0 ]; then
-
-       echo "$0: Already configured for $FILE"
-
-       exit 1;
-
-   fi
-
-
-
-   MYERR=0
-
-   echo "
-
-   <ossec_config>
-
-   <localfile>
-
-     <log_format>full_command</log_format>
-
-     <command>$COMMAND</command>
-
-   </localfile>
-
-   </ossec_config>
-
-   " >> ${DIRECTORY}/etc/ossec.conf || MYERR=1;
-
-
-
-   if [ $MYERR = 1 ]; then
-
-       echo "$0: Unable to modify the configuration file."; 
-
-       exit 1;
-
-   fi
-
-
-
-   FIRSTRULE="150010"
-
-   while [ 1 ]; do
-
-       grep "\"$FIRSTRULE\"" ${DIRECTORY}/rules/local_rules.xml > /dev/null 2>&1
-
-       if [ $? = 0 ]; then
-
-           FIRSTRULE=`expr $FIRSTRULE + 1`
-
-       else
-
-           break;
-
-       fi
-
-   done
-
-
-
-
-
-   echo "
-
-   <group name=\"local,sitechange,\">
-
-   <rule id=\"$FIRSTRULE\" level=\"0\">
-
-     <if_sid>530</if_sid>
-
-     <check_diff />
-
-     <match>^ossec: output: 'lynx --connect_timeout 10 --dump $FILE</match>
-
-     <description>DNS Changed for $FILE</description>
-
-   </rule>
-
-   </group>
-
-   " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
-
-
-
-   if [ $MYERR = 1 ]; then
-
-       echo "$0: Unable to modify the local rules file.";
-
-       exit 1;
-
-   fi
-
-
-
-   echo "Domain $FILE added to be monitored."
-
-   exit 0;
-
-fi
-
-
-
-
-
-
-
-
-
-*/
+function changeInputFile() {
+    $('input[type=file]').change(function() {
+        $('files_names').text;
+    });
+}

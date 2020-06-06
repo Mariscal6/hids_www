@@ -6,29 +6,31 @@
 # Add a new command to be monitored
 # by Daniel B. Cid - dcid ( at ) ossec.net
 
+# NAME=${NAME//%/ }
+
+
 ACTION=$1
-FILE=$2
+DOMAIN=$2
 FORMAT=$3
 
 #variable if add command
-FILE=$2
-NAME=$3
+FILE=$3
+NAME=$2
 EXPECT=$4
 TIME=$5
 
+DISABLE=$6
+LOCATION=$7
+RULES_ID=$8
+LEVEL=$9
+
 #variable if add file
-TYPE=$2
+TYPEE=$2
 LOGFORMAT=$3
 FILECOMMAND=$4
 ARG5=$5
 ARG6=$6
 
-#variable if add response
-DISABLE=$2
-COMMAND=$3
-LOCATION=$4
-LEVEL=$5
-TIMEOUT=$6
 
 
 if ! [ -e /etc/ossec-init.conf ]; then
@@ -39,10 +41,11 @@ fi
 . /etc/ossec-init.conf
 
 
-if [ "X$FILE" = "X" ]; then
+if [ "X$DOMAIN" = "X" ]; then
     echo "$0: addcommand <format>"
     echo "$0: addfile type <format>"
-    echo "$0: addresponse  <format>"
+    echo "$0: adddns  <format>"
+    echo "$0: addsite  <format>"
 
     echo ""
 
@@ -50,13 +53,16 @@ if [ "X$FILE" = "X" ]; then
     echo "Info: $0 addfile command <format_command> <command> <alias_custom> <frequency>"
     echo "Info: $0 addfile file <log_format> <path/filename.log> <check_diff> <only_read_future>"
     echo "Info: $0 addresponse <disable> <command> <location> <level> <timeout>"
+    echo "Info: $0 adddns dns"
+    echo "Info: $0 addsite site"
 
     echo ""
 
     echo "Example: $0 addcommand disable-account.sh disable-account user yes"
-    echo "Example: $0 addfile command full-command df_-P alias_custom 20 "
+    echo "Example: $0 addfile command full-command df_-P_arg alias_custom 20 "
     echo "Example: $0 addfile file syslog /var/log/pre.log yes yes"
-    echo "Example: $0 addresponse no firewall-drop local 6 600"
+    echo "Example: $0 adddns 0.0.0.0"
+    echo "Example: $0 addsite www.osec.net"
     exit 1;
 fi
 
@@ -91,54 +97,51 @@ if [ $ACTION = "addcommand" ]; then
         echo "$0: File $FILE does not exist."
         exit 1;
     fi     
-    
-    echo "
-    <ossec_config>
+
+
+   if [ "X$DISABLE" = "X" ]; then
+        echo "
+        <ossec_config>
         <command>
             <name>$NAME</name>
             <executable>$FILE</executable>
             <expect>$EXPECT</expect>
             <timeout_allowed>$TIME</timeout_allowed>
         </command>
-    </ossec_config>
-   " >> ${DIRECTORY}/etc/ossec.conf
+ 	</ossec_config>
+        " >> ${DIRECTORY}/etc/ossec.conf
+    else
+        echo "
+            <ossec_config>
+                <command>
+                    <name>$NAME</name>
+                    <executable>$FILE</executable>
+                    <expect>$EXPECT</expect>
+                    <timeout_allowed>$TIME</timeout_allowed>
+                </command>
+           
+        <active-response>
+            <disabled>$DISABLE</disabled>
+            <command>$NAME</command>
+            <location>$LOCATION</location>
+            <level>$LEVEL</level>
+            <rules_id>$RULES_ID</rules_id>
+        </active-response>
+        </ossec_config>
+        ">> ${DIRECTORY}/etc/ossec.conf
+    fi
 
    echo "$0: File $FILE added.";
    exit 0;            
 fi
 
-
 # Adding a new file
-TYPE=$2
-LOGFORMAT=$3
-FILECOMMAND=$4 #path of file or name of command
-ARG5=$5 #check_diff or alias depend of type
-ARG6=$6 #only-future-events or frequency depend of type
-
-
-if [ "X$TYPE" = "X" ]; then
-     echo "need a type"
-     exit 1;
-fi
-
-if [ "X$LOGFORMAT" = "X" ]; then
-     echo "need a log format"
-     exit 1;
-fi
-
-if [ "X$FILECOMMAND" = "X" ]; then
-     echo "need a location or command"
-     exit 1;
-fi
-
-
 
 if [ $ACTION = "addfile" ]; then
     # Checking if file is already configured
-
-
-
-     if [ $TYPE = "file" ]; then
+echo $TYPEE
+	
+     if [ $TYPEE = "file" ]; then
         grep "$FILECOMMAND" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
         if [ $? = 0 ]; then
             echo "$0: File $FILECOMMAND already configured at ossec."
@@ -162,11 +165,11 @@ if [ $ACTION = "addfile" ]; then
             </localfile>
         </ossec_config>  
         " >> ${DIRECTORY}/etc/ossec.conf  
-        echo "$0: File $FILE added.";
+        echo "$0: File $FILECOMMAND added.";
         exit 0;  
      fi
 
-     if [ $TYPE = "command" ]; then
+     if [ $TYPEE = "command" ]; then
          echo "
             <ossec_config>
                 <localfile>
@@ -177,7 +180,7 @@ if [ $ACTION = "addfile" ]; then
                 </localfile>
             </ossec_config>  
         " >> ${DIRECTORY}/etc/ossec.conf  
-        echo "$0: Command $FILE added.";
+        echo "$0: Command $FILECOMMAND added.";
         exit 0;  
      fi
              
@@ -185,16 +188,16 @@ fi
 
 ## Adding a new DNS check
 if [ $ACTION = "adddns" ]; then
-   COMMAND="host -W 5 -t NS $FILE; host -W 5 -t A $FILE | sort"
-   echo $FILE | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
+   COMMAND="host -W 5 -t NS $DOMAIN; host -W 5 -t A $DOMAIN | sort"
+   echo $DOMAIN | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
    if [ $? = 1 ]; then
-      echo "$0: Invalid domain: $FILE"
+      echo "$0: Invalid domain: $DOMAIN"
       exit 1;
    fi
 
-   grep "host -W 5 -t NS $FILE" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
+   grep "host -W 5 -t NS $DOMAIN" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
    if [ $? = 0 ]; then
-       echo "$0: Already configured for $FILE"
+       echo "$0: Already configured for $DOMAIN"
        exit 1;
    fi
 
@@ -229,8 +232,8 @@ if [ $ACTION = "adddns" ]; then
    <rule id=\"$FIRSTRULE\" level=\"0\">
      <if_sid>530</if_sid>
      <check_diff />
-     <match>^ossec: output: 'host -W 5 -t NS $FILE</match>
-     <description>DNS Changed for $FILE</description>
+     <match>^ossec: output: 'host -W 5 -t NS $DOMAIN</match>
+     <description>DNS Changed for $DOMAIN</description>
    </rule>
    </group>
    " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
@@ -240,23 +243,23 @@ if [ $ACTION = "adddns" ]; then
        exit 1;
    fi
 
-   echo "Domain $FILE added to be monitored."
+   echo "Domain $DOMAIN added to be monitored."
    exit 0;
 fi
 
 
 # Adding a new lynx check
 if [ $ACTION = "addsite" ]; then
-   COMMAND="lynx --connect_timeout 10 --dump $FILE | head -n 10"
-   echo $FILE | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
+   COMMAND="lynx --connect_timeout 10 --dump $DOMAIN | head -n 10"
+   echo $DOMAIN | grep -E '^[a-z0-9A-Z.-]+$' >/dev/null 2>&1
    if [ $? = 1 ]; then
-      echo "$0: Invalid domain: $FILE"
+      echo "$0: Invalid domain: $DOMAIN"
       exit 1;
    fi
 
-   grep "lynx --connect_timeout 10 --dump $FILE" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
+   grep "lynx --connect_timeout 10 --dump $DOMAIN" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
    if [ $? = 0 ]; then
-       echo "$0: Already configured for $FILE"
+       echo "$0: Already configured for $DOMAIN"
        exit 1;
    fi
 
@@ -291,8 +294,8 @@ if [ $ACTION = "addsite" ]; then
    <rule id=\"$FIRSTRULE\" level=\"0\">
      <if_sid>530</if_sid>
      <check_diff />
-     <match>^ossec: output: 'lynx --connect_timeout 10 --dump $FILE</match>
-     <description>DNS Changed for $FILE</description>
+     <match>^ossec: output: 'lynx --connect_timeout 10 --dump $DOMAIN</match>
+     <description>DNS Changed for $DOMAIN</description>
    </rule>
    </group>
    " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
@@ -302,6 +305,6 @@ if [ $ACTION = "addsite" ]; then
        exit 1;
    fi
 
-   echo "Domain $FILE added to be monitored."
+   echo "Domain $DOMAIN added to be monitored."
    exit 0;
 fi

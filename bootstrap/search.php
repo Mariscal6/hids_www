@@ -151,7 +151,8 @@ $agent_list = os_getagents($ossec_handle);
                     
                     /* Page 1 will become the latest and the latest, page 1 */
                     $real_page = ($output_list[0]{'pg'} + 1) - $USER_page;
-                    
+                  print_r($output_list);
+                  exit();
                     
                     echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
                     
