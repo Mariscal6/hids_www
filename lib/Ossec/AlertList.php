@@ -106,10 +106,16 @@ class Ossec_AlertList {
         $last  = $this->latest();
         $last  = date('Y M d H:i:s', $last->time ); ?>
 
-        <div id="alert_list_nav">
-            <?php echo $this->_tallyNav( $this->_level_histogram, 'level', 'severity' , '+Severity breakdown' ) ?>
-            <?php echo $this->_tallyNav( $this->_id_histogram   , 'id'   , 'rule'     , '+Rules breakdown'    ) ?>
-            <?php echo $this->_tallyNav( $this->_srcip_histogram, 'srcip', 'Source IP', '+Src IP breakdown'   ) ?>
+        <div class="row mx-3 " id="alert_list_nav">
+            <div class="col-4" id="alert_list_nav_levels"> 
+                <?php echo $this->_tallyNav( $this->_level_histogram, 'Level', 'severity' , '+Severity breakdown' ) ?>
+            </div>
+            <div class="col-4" id="alert_list_nav_id"> 
+                <?php echo $this->_tallyNav( $this->_id_histogram   , 'Id'   , 'rule'     , '+Rules breakdown'    ) ?>
+            </div>
+            <div class="col-4" id="alert_list_nav_srcip"> 
+                <?php echo $this->_tallyNav( $this->_srcip_histogram, 'Srcip', 'Source IP', '+Src IP breakdown'   ) ?>
+            </div>
         </div>
         <br />
 
@@ -120,7 +126,8 @@ class Ossec_AlertList {
         <br />
        
         <h2>Alert list</h2>
-        <div id="alert_list_content">
+        <?php require('includes/pagesSearch.php')?>
+        <div id="alert_list_content" class='m-3'>
             <a name="ft" ></a>
             <?php foreach( array_reverse($this->_alerts) as $alert ): ?>
                 <div class="card shadow mb-4">
@@ -214,17 +221,122 @@ class Ossec_AlertList {
 
     }
 
-    function _tallyNav($histogram, $key, $description, $title ) {
+    function _tallyNav($histogram, $key, $description, $title) {
 
         // Obtain copy of histogram and sort in reverse order by value.
 
         $tally = $histogram->getRaw( );
         arsort( $tally ); ?>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load("current", {packages:['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var tally = <?php  echo json_encode($tally);?>;
+                var type = "<?php  echo $key;?>";
+                var table = [[type, "Alerts", { role: "style" }]];
+                if(type == "Level"){
+                    drawChartLevels(tally, table);
+                }else if(type == "Id"){
+                    drawChartId(tally);
+                }else if(type == "Srcip"){
+                    drawChartScrip(tally)
+                }
+               
+            }
+            function drawChartLevels(tally, table){
+                for(element in tally ){
+                    var row = [];
+                    var color = generateColours(parseInt(element));
+                    var level = "Level "+ element;
+                    row.push(level, parseInt(tally[element]),color);
+                    table.push(row);
+                };
+                var data = google.visualization.arrayToDataTable(
+                    table
+                );
 
+                var view = new google.visualization.DataView(data);
+
+                var options = {
+                    title: "Aggregate values by severity",
+                    bar: {groupWidth: "95%"},
+                    legend: { position: "none" },
+                    vAxis: {scaleType: "mirrorLog"},
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById("alert_list_nav_levels"));
+                chart.draw(view, options);
+            }
+            function drawChartId(tally){
+                var table = [["Id's", "Alerts"]];
+                for(element in tally ){
+                    var row = [];
+                    var level = "Id "+ element;
+                    row.push(level, parseInt(tally[element]));
+                    table.push(row);
+                };
+                var data = google.visualization.arrayToDataTable(
+                    table
+                );
+
+                var view = new google.visualization.DataView(data);
+
+                var options = {
+                    title: "Id's",
+                    is3D:true,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('alert_list_nav_id'));
+                chart.draw(view, options);
+            }
+            function drawChartScrip(tally){
+                var table = [["Id's", "Alerts"]];
+                for(element in tally ){
+                    var row = [];
+                    var level = "Id "+ element;
+                    row.push(level, parseInt(tally[element]));
+                    table.push(row);
+                };
+                var data = google.visualization.arrayToDataTable(
+                    table
+                );
+
+                var view = new google.visualization.DataView(data);
+
+                var options = {
+                    title: 'Source IP',
+                    pieHole: 0.4,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('alert_list_nav_srcip'));
+                chart.draw(view, options);
+            }
+            function generateColours(level){
+                switch(level){
+                    case 0: return "#34F100";
+                    case 1: return "#5CF100";
+                    case 2: return "#76F100";
+                    case 3: return "#97F100";
+                    case 4: return "#B4F100";
+                    case 5: return "#D4F100";
+                    case 6: return "#A8F100";
+                    case 7: return "#E7F100";
+                    case 8: return "#F1D000";
+                    case 9: return "#F1AB00";
+                    case 10: return "#F18E00";
+                    case 11: return "#F17500";
+                    case 12: return "#F15400";
+                    case 13: return "#F13A00";
+                    case 14: return "#F11900";
+                    case 15: return "#F10000";
+                }          
+            }
+
+        </script>
         <div class="alert_list_nav">
             <div class="asmall toggle">
                 <a href="#" title="<?php echo $title ?>" class="black bigg" style="font-weight:bold;"><?php echo $title ?></a>
-                <div class="asmall details" style="display:none">
+                <div class="asmall details" >
                     <?php foreach($tally as $id => $count): ?>
                         <div id="showing_<?php echo $key ?>_<?php echo $id ?>" class="asmall">
                             Showing <?php echo $count ?> alert(s) from <b><?php echo $key ?> <?php echo $id ?></b>

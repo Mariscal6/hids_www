@@ -1,6 +1,6 @@
 
 <?php if($output_list[0]{'pg'} > 1): ?>
-    <div>
+    <div class ="m-3 d-flex justify-content-end">
         <form name="dopage" method="post" action="search.php">
     <?php endif;?>
 
@@ -8,7 +8,7 @@
     <?php if($output_list[0]{'pg'} > 1): ?>
 
         <input type="submit" name="search" value="<< First"
-            class="btn btn-light btn-icon-split">
+            class="formText">
 
         <input type="submit" name="search" value="< Prev" class="button"
                     class="formText" />

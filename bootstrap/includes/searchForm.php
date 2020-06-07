@@ -26,8 +26,9 @@
     </div>
     <div class="row mt-2">
         <div class="col-sm-12 pl-5">
-        <input type="radio" name="monitoring" value="1" <?php echo $rt_sk?>/>
+       
         <label> Real time monitoring </label>
+        <input type="checkbox" name="monitoring" value="1" <?php echo $rt_sk?>/>
         </div>
     </div>
     <hr/>

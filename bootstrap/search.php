@@ -38,7 +38,6 @@ $agent_list = os_getagents($ossec_handle);
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -119,7 +118,6 @@ $agent_list = os_getagents($ossec_handle);
                     $used_stored = 1;
                   } else { /* Searching for new ones */
                       /* Getting alerts */
-                      
                       $output_list = os_searchalerts($ossec_handle, $USER_searchid,
                                                     $USER_init, $USER_final,
                                                     $ossec_max_alerts_per_page,
@@ -151,12 +149,11 @@ $agent_list = os_getagents($ossec_handle);
                     
                     /* Page 1 will become the latest and the latest, page 1 */
                     $real_page = ($output_list[0]{'pg'} + 1) - $USER_page;
-                  print_r($output_list);
-                  exit();
+                 
                     
-                    echo "<b>Total alerts found: </b>".$output_list[0]{'count'};
+                    echo "<b>Total alerts found:</b>".$output_list[0]{'count'} ;
                     
-                    require('includes/pagesSearch.php');
+                   
                     /* Checking if page exists */
                     if(!isset($output_list[0]{$real_page}) ||
                       (strlen($output_list[$real_page]) < 5) ||
@@ -164,29 +161,24 @@ $agent_list = os_getagents($ossec_handle);
                         echo "<b class='red'>Nothing returned (or search expired). </b><br />\n";
                         $flag = false;
                     }
-                    
+                   
                     echo "<br /><br />";
                     $fp = fopen($output_list[$real_page], "r");
                     if ($fp) {
                         while (!feof($fp)) {
                             echo fgets($fp);
+                            
                         }
                     }
                     ?>
                     
                       </li>
                       <?php
-                      if ($flag) {
-                        echo '<li class="list-group-item">
-                          <h2 class="card-title"> Resume </h2>
-                        </li>';
-                      }
+                       require('includes/pagesSearch.php');
                     }
                   }
                   ?>
                 </ul>
-                
-                </div>
               </div>
             </div>
           </div>

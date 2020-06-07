@@ -40,6 +40,7 @@ $ossec_root = $GLOBALS['ossec_root'];
 function __os_createresults($out_file, $alert_list)
 {
     /* Opening output file */ 
+    
     $fp = fopen($out_file, "w");
     if(!$fp) {
         return(NULL);
@@ -630,7 +631,6 @@ function os_searchalerts($ossec_handle, $search_id,
                 $output_file[$output_count] = $GLOBALS['ossec_root']."tmp/output-tmp.".
                                             $output_count."-".$alert_list->size( )."-".
                                             $search_id.".php";
-                
                 __os_createresults($output_file[$output_count], $alert_list); 
 
                 $output_file[0]{$output_count} = $alert_list->size( ) -1;
