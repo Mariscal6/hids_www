@@ -36,7 +36,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Minimum level:</label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Minimum level:</label>
             </div>
             <select class="custom-select" name="level">
             <?php
@@ -67,7 +67,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Category: </label>
+            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Category: </label>
             </div>
             <select class="custom-select" name="grouppattern" id="inputGroupSelect01">
             <option value="ALL" class="bluez">All categories</option>
@@ -102,7 +102,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Pattern: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Pattern: </label>
             </div>
             <input type="text" class="form-control" name="strpattern" value="<?php echo $u_pattern?>"/>
         </div>
@@ -110,7 +110,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Log formats: </label>
+            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Log formats: </label>
             </div>
             <select class="custom-select" name="logpattern">
                 <?php
@@ -146,7 +146,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Srcip: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Srcip: </label>
             </div>
             <input type="text" class="form-control" name="srcippattern" value="<?php echo $u_srcip?>"/>
         </div>
@@ -154,7 +154,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">User: </label>
+            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">User: </label>
             </div>
             <input type="text" class="form-control" name="srcippattern" value="<?php echo $u_srcip?>"/>
         </div>
@@ -164,7 +164,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Location: </label>
+            <label style="width: 140px;"class="input-group-text" for="inputGroupSelect01">Location: </label>
             </div>
             <input type="text" class="form-control" name="locationpattern" value="<?php echo $u_location?>"/>
         </div>
@@ -172,7 +172,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Rule id: </label>
+            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Rule id: </label>
             </div>
             <input type="text" class="form-control" name="rulepattern" value="<?php echo $u_rule?>"/>
         </div>
@@ -182,7 +182,7 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Max Alerts: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Max Alerts: </label>
             </div>
             <input type="text" class="form-control" name="max_alerts_per_page" value="<?php echo $ossec_max_alerts_per_page?>"/>
         </div>
