@@ -1,0 +1,11 @@
+.sidebar .nav-item .nav-link span:hover {
+    color: white;
+    font-weight: bold;
+    font-size: large;
+}
+
+.sidebar .nav-item .nav-link span.nav-text-custom-active {
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+}
