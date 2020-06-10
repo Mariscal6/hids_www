@@ -86,7 +86,7 @@ HTML;
     function titleToHtml(){
         $date = date('Y M d H:i:s', $this->time);
         return <<<HTML
-            <span class="alertdate">$date</span>
+           <span class="alertdescription">$date - {$this->description}</span>
 HTML;
     }
     function getDescription(){
