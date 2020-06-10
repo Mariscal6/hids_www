@@ -8,29 +8,8 @@
 
 # NAME=${NAME//%/ }
 
-
 ACTION=$1
 DOMAIN=$2
-FORMAT=$3
-
-#variable if add command
-FILE=$3
-NAME=$2
-EXPECT=$4
-TIME=$5
-
-DISABLE=$6
-LOCATION=$7
-RULES_ID=$8
-LEVEL=$9
-
-#variable if add file
-TYPEE=$2
-LOGFORMAT=$3
-FILECOMMAND=$4
-ARG5=$5
-ARG6=$6
-
 
 
 if ! [ -e /etc/ossec-init.conf ]; then
@@ -67,25 +46,21 @@ if [ "X$DOMAIN" = "X" ]; then
 fi
 
 
-#Adding a new command
-
-if [ "X$NAME" = "X" ]; then
-     echo "need a name"
-     exit 1;
-fi
-
-if [ "X$EXPECT" = "X" ]; then
-    EXPECT="user"
-fi
-
-if [ "X$TIME" = "X" ]; then
-    TIME="no"
-fi
-
-
 if [ $ACTION = "addcommand" ]; then
+
+#variable if add command
+	FILE=$3
+	NAME=$2
+	EXPECT=$4
+	TIME=$5
+
+	DISABLE=$6
+	LOCATION=$7
+	RULES_ID=$8
+	LEVEL=$9
+
     # Checking if file is already configured
-    grep "$FILE" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
+    grep "$FILE" /var/ossec/etc/ossec.conf > /dev/null 2>&1
     if [ $? = 0 ]; then
         echo "$0: Command $FILE already configured at ossec."
         exit 1;
@@ -109,7 +84,7 @@ if [ $ACTION = "addcommand" ]; then
             <timeout_allowed>$TIME</timeout_allowed>
         </command>
  	</ossec_config>
-        " >> ${DIRECTORY}/etc/ossec.conf
+        " >> /var/ossec/etc/ossec.conf
     else
         echo "
             <ossec_config>
@@ -128,7 +103,7 @@ if [ $ACTION = "addcommand" ]; then
             <rules_id>$RULES_ID</rules_id>
         </active-response>
         </ossec_config>
-        ">> ${DIRECTORY}/etc/ossec.conf
+        ">> /var/ossec/etc/ossec.conf
     fi
 
    echo "$0: File $FILE added.";
@@ -139,10 +114,18 @@ fi
 
 if [ $ACTION = "addfile" ]; then
     # Checking if file is already configured
-echo $TYPEE
+	
+	#variable if add file
+	TYPEE=$2
+	LOGFORMAT=$3
+	FILECOMMAND=$4
+	ARG5=$5
+	ARG6=$6
+
+
 	
      if [ $TYPEE = "file" ]; then
-        grep "$FILECOMMAND" ${DIRECTORY}/etc/ossec.conf > /dev/null 2>&1
+        grep "$FILECOMMAND" /var/ossec/etc/ossec.conf > /dev/null 2>&1
         if [ $? = 0 ]; then
             echo "$0: File $FILECOMMAND already configured at ossec."
             exit 1;
@@ -164,7 +147,7 @@ echo $TYPEE
                 <only-future-events>$ARG6</only-future-events>
             </localfile>
         </ossec_config>  
-        " >> ${DIRECTORY}/etc/ossec.conf  
+        " >> /var/ossec/etc/ossec.conf  
         echo "$0: File $FILECOMMAND added.";
         exit 0;  
      fi
@@ -179,7 +162,7 @@ echo $TYPEE
                     <frequency>$ARG6</frequency>
                 </localfile>
             </ossec_config>  
-        " >> ${DIRECTORY}/etc/ossec.conf  
+        " >> /var/ossec/etc/ossec.conf  
         echo "$0: Command $FILECOMMAND added.";
         exit 0;  
      fi
@@ -195,7 +178,7 @@ if [ $ACTION = "adddns" ]; then
       exit 1;
    fi
 
-   grep "host -W 5 -t NS $DOMAIN" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
+   grep "host -W 5 -t NS $DOMAIN" /var/ossec/etc/ossec.conf >/dev/null 2>&1
    if [ $? = 0 ]; then
        echo "$0: Already configured for $DOMAIN"
        exit 1;
@@ -209,7 +192,7 @@ if [ $ACTION = "adddns" ]; then
      <command>$COMMAND</command>
    </localfile>
    </ossec_config>
-   " >> ${DIRECTORY}/etc/ossec.conf || MYERR=1;
+   " >> /var/ossec/etc/ossec.conf || MYERR=1;
 
    if [ $MYERR = 1 ]; then
        echo "$0: Unable to modify the configuration file."; 
@@ -218,7 +201,7 @@ if [ $ACTION = "adddns" ]; then
 
    FIRSTRULE="150010"
    while [ 1 ]; do
-       grep "\"$FIRSTRULE\"" ${DIRECTORY}/rules/local_rules.xml > /dev/null 2>&1
+       grep "\"$FIRSTRULE\"" /var/ossec/rules/local_rules.xml > /dev/null 2>&1
        if [ $? = 0 ]; then
            FIRSTRULE=`expr $FIRSTRULE + 1`
        else
@@ -236,7 +219,7 @@ if [ $ACTION = "adddns" ]; then
      <description>DNS Changed for $DOMAIN</description>
    </rule>
    </group>
-   " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
+   " >> /var/ossec/rules/local_rules.xml || MYERR=1;
 
    if [ $MYERR = 1 ]; then
        echo "$0: Unable to modify the local rules file.";
@@ -257,7 +240,7 @@ if [ $ACTION = "addsite" ]; then
       exit 1;
    fi
 
-   grep "lynx --connect_timeout 10 --dump $DOMAIN" ${DIRECTORY}/etc/ossec.conf >/dev/null 2>&1
+   grep "lynx --connect_timeout 10 --dump $DOMAIN" /var/ossec/etc/ossec.conf >/dev/null 2>&1
    if [ $? = 0 ]; then
        echo "$0: Already configured for $DOMAIN"
        exit 1;
@@ -271,7 +254,7 @@ if [ $ACTION = "addsite" ]; then
      <command>$COMMAND</command>
    </localfile>
    </ossec_config>
-   " >> ${DIRECTORY}/etc/ossec.conf || MYERR=1;
+   " >> /var/ossec/etc/ossec.conf || MYERR=1;
 
    if [ $MYERR = 1 ]; then
        echo "$0: Unable to modify the configuration file."; 
@@ -280,7 +263,7 @@ if [ $ACTION = "addsite" ]; then
 
    FIRSTRULE="150010"
    while [ 1 ]; do
-       grep "\"$FIRSTRULE\"" ${DIRECTORY}/rules/local_rules.xml > /dev/null 2>&1
+       grep "\"$FIRSTRULE\"" /var/ossec/rules/local_rules.xml > /dev/null 2>&1
        if [ $? = 0 ]; then
            FIRSTRULE=`expr $FIRSTRULE + 1`
        else
@@ -298,7 +281,7 @@ if [ $ACTION = "addsite" ]; then
      <description>DNS Changed for $DOMAIN</description>
    </rule>
    </group>
-   " >> ${DIRECTORY}/rules/local_rules.xml || MYERR=1;
+   " >> /var/ossec/rules/local_rules.xml || MYERR=1;
 
    if [ $MYERR = 1 ]; then
        echo "$0: Unable to modify the local rules file.";
