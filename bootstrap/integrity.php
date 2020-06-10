@@ -102,7 +102,7 @@
                 </div>
                 <div class="card-body">
 
-                  
+                    <div class="row">
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">Agent name:</label>
@@ -121,6 +121,7 @@
                         ?>
                         </select>
                       </div>
+                    </div>
                 </div>
                 <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
                   <button type="submit" name="ss" class="btn btn-success">Apply Agent</button>
@@ -187,6 +188,73 @@
                   <button type="button" class="btn btn-danger" onclick="clearFilters();">Clear Filters</button>
                 </div>
               </div>
+              </div>
+              </div>
+            <div>
+          </div>
+          </form>
+          <!-- End Card -->
+
+          <form id="searchByName" action="" method="POST">
+          <!-- Start Card -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="main-stats" class="card show mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Search Files By Name</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">File Name: </label>
+                      </div>
+                      <input id="fileName" type="text" class="form-control" name="fileName" value="<?php echo $fileName; ?>">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
+                  <button type="submit" class="btn btn-success">Search</button>
+                  <button type="button" class="btn btn-danger" onclick="clearFilters();">Clear Search</button>
+                </div>
+              </div>
+            <div>
+          </div>
+          </form>
+          <!-- End Card -->
+
+          <form id="searchByHash" action="" method="POST">
+          <!-- Start Card -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div id="main-stats" class="card show mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Search File By Hash</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">MD5 Hash: </label>
+                      </div>
+                      <input id="md5" type="text" class="form-control" name="md5" value="<?php echo $md5; ?>">
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label style="width: 200px;" class="input-group-text" for="inputGroupSelect01">SHA1 Hash: </label>
+                      </div>
+                      <input id="sha1" type="text" class="form-control" name="sha1" value="<?php echo $sha1; ?>">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer py-3 d-flex flex-row align-items-center justify-content-between">
+                  <button type="submit" class="btn btn-success">Search File By Hash</button>
+                  <button type="button" class="btn btn-danger" onclick="clearFilters();">Clear Search</button>
+                </div>
+              </div>
             <div>
           </div>
           </form>
@@ -196,9 +264,11 @@
           <div class="row">
             <div class="col-lg-12">
               <div id="main-stats" class="card show mb-4">
+                
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Latest modified files (for all agents)</h6>
                 </div>
+
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2" id="modifiedFiles">
@@ -207,26 +277,24 @@
                         require('includes/tools/integrity/modifiedFiles.php');
                       ?>
                     </div>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
-        </div>
           <!-- End Card -->
-
-
-          <!-- Content Row -->
-          <div class="row">
-
           </div>
-
         </div>
         <!-- /.container-fluid -->
 
       </div>
+      </div>
       <!-- End of Main Content -->
 
+      </div>
     </div>
+    
     <!-- End of Content Wrapper -->
 
     <!-- Footer -->
@@ -303,7 +371,7 @@ function loadSpecificChecksum(element) {
     md5Div.innerHTML = html;
 
     var sha1Div = document.getElementById('sha1');
-    html = "<h2>SHA1 History:</h2><p><br>";
+    html = "<h2>SHA1 History:</h2><br>";
     for (var i = 0; i < allSHA1.length; i++) {
       html += '<h5 style="text-align: center;">' + allSHA1[i] + '</h5>';
       if (i != allSHA1.length - 1) {

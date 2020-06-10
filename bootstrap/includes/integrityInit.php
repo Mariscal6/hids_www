@@ -58,28 +58,27 @@ array(
 
 */
 
-// Load Database for Integrity Checking
-
-/* Dumping database */
-
-$db_changes = os_syscheck_dumpdb_custom($ossec_handle, $USER_agent);
-// $toPrint = array_search('/etc/libreoffice/psprint.conf', array_column($agentInfo, 'name'));
-$i = 0;
-foreach ($db_changes as $name) {
-    if ($name[$i]['changed'] == 0) {
-        unset($name[$i]);
-    } else {
-        // print_r($name);
-    }
-    $i++;
-}
-
 // Filters fetch
 
 $maxFiles = 100;
 $maxDays = 100;
 $dayOrder = 'desc';
 $fileOrder = 'desc';
+$fileName = "";
+$md5 = "";
+$sha1 = "";
+
+if (isset($_POST['fileName'])) {
+    $fileName = $_POST['fileName'];
+}
+
+if (isset($_POST['md5'])) {
+    $md5 = $_POST['md5'];
+}
+
+if (isset($_POST['sha1'])) {
+    $sha1 = $_POST['sha1'];
+}
 
 if (isset($_POST['maxFiles'])) {
     $maxFiles = $_POST['maxFiles'];
@@ -97,14 +96,36 @@ if (isset($_POST['fileOrder'])) {
     $fileOrder = $_POST['fileOrder'];
 }
 
+// Load Database for Integrity Checking
+
+/* Dumping database */
 
 $filters = [
     "maxDays" => $maxDays,
     "maxFiles" => $maxFiles,
     "daySort" => $dayOrder,
     "fileSort" => $fileOrder,
+    "fileName" => $fileName,
+    "md5" => $md5,
+    "sha1" => $sha1
 ];
 
-$syscheck_list = os_getsyscheck_custom($ossec_handle, $filters);
+$db_changes = os_syscheck_dumpdb_custom($ossec_handle, $USER_agent, $filters);
+// $toPrint = array_search('/etc/libreoffice/psprint.conf', array_column($agentInfo, 'name'));
+$i = 0;
+foreach ($db_changes as $name) {
+    if ($name[$i]['changed'] == 0) {
+        unset($name[$i]);
+    } else {
+        // print_r($name);
+    }
+    $i++;
+}
+
+if ($filters['md5'] == 'ERROR' || $filters['sha1'] == 'ERROR') {
+    $syscheck_list = NULL;
+} else {
+    $syscheck_list = os_getsyscheck_custom($ossec_handle, $filters);
+}
 
 ?>

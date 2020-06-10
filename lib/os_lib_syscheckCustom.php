@@ -22,7 +22,7 @@
  * Foundation
  */
        
-function os_getsyscheck_custom($ossec_handle, $filters) {
+function os_getsyscheck_custom($ossec_handle, &$filters) {
     // Adding the parameter $filters allows us to recover data without having to bring back the whole history of files.
 
     $dh = NULL;
@@ -75,7 +75,7 @@ function os_getsyscheck_custom($ossec_handle, $filters) {
     return(NULL);
 }
 
-function __os_getchanges_custom($file, &$g_last_changes, $_name, $filters) {
+function __os_getchanges_custom($file, &$g_last_changes, $_name, &$filters) {
 
     $g_last_changes = [];
 
@@ -147,13 +147,38 @@ function __os_getchanges_custom($file, &$g_last_changes, $_name, $filters) {
 
 }
 
-function applyFilters(&$array, $filters, $dayCounter) {
+function applyFilters(&$array, &$filters, $dayCounter) {
     /* $filters = [
-        "maxDays" => $maxDays,
-        "maxFiles" => $maxFiles,
-        "daySort" => $dayOrder,
-        "fileSort" => $fileOrder,
-    ]; */
+            "maxDays" => $maxDays,
+            "maxFiles" => $maxFiles,
+            "daySort" => $dayOrder,
+            "fileSort" => $fileOrder,
+            "fileName" => $fileName,
+            "md5" => $md5,
+            "sha1" => $sha1
+        ];
+    */
+
+    if ($filters['fileName'] != '') {
+        $aux = [];
+        for ($i = 0; $i < sizeof($array{'days'}); $i+=1) {
+            for ($e = 0; $e < sizeof($array{'days'}[$i]{'file'}); $e++) {
+                if (strpos($array{'days'}[$i]{'file'}[$e][2], $filters['fileName']) !== false) {
+                    array_push($aux, $array{'days'}[$i]{'file'}[$e]);
+                }
+                /*if ($array{'days'}[$i]{'file'}[$e][2] == $filters['fileName']) {
+                    array_push($aux, $array{'days'}[$i]{'file'}[$e]);
+                }*/
+            }
+        }
+        $array = $aux;
+
+        if (sizeof($array) == 0) {
+            $filters['fileName'] = 'ERROR';
+        }
+
+        return;
+    }
 
     if ($filters['daySort'] == 'desc') {
         rsort($array{'days'});

@@ -11,5 +11,10 @@ function clearFilters() {
     dayOrder.selectedIndex = 1;
     var fileOrder = document.getElementById('fileOrder');
     fileOrder.selectedIndex = 1;
-    $('#filterForm').submit();
+    var md5 = document.getElementById('md5');
+    md5.value = "";
+    var sha1 = document.getElementById('sha1Hash');
+    sha1.value = "";
+    var fileName = document.getElementById('fileName');
+    fileName.value = "";
 }

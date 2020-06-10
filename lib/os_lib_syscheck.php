@@ -162,7 +162,7 @@ function __os_getdb($file, $_name)
     return($db_list);
 }
 
-function __os_getdb_custom($file, $_name)
+function __os_getdb_custom($file, $_name, &$filters)
 {
     $db_list = NULL;
     $mod_list = NULL;
@@ -173,6 +173,13 @@ function __os_getdb_custom($file, $_name)
     if($fp === FALSE)
     {
         return(NULL);
+    }
+
+    $checkHash = false;
+    $found = false;
+
+    if ($filters['md5'] != "" || $filters['sha1'] != "") {
+        $checkHash = true;
     }
 
     /* No size for windows registry */
@@ -205,6 +212,20 @@ function __os_getdb_custom($file, $_name)
             $time_stamp = $regs[6];
             $sk_file_name = $regs[7];
             
+            if ($checkHash) {
+                if ($sk_file_md5 == $filters['md5']) {
+                    if (!$found) {
+                        $filters['fileName'] = $sk_file_name;
+                        $found = true;
+                    }
+                }
+                if ($sk_file_sha1 == $filters['sha1']) {
+                    if (!$found) {
+                        $filters['fileName'] = $sk_file_name;
+                        $found = true;
+                    }
+                }
+            } 
             if(strlen($sk_file_name) > 45)
             {
                 $sk_file_name = chunk_split($sk_file_name, 45, " ");
@@ -229,12 +250,10 @@ function __os_getdb_custom($file, $_name)
                 $db_list{$sk_file_name}{'time'} = $time_stamp;
                 $db_list{$sk_file_name}{'size'} = $sk_file_size;
                 $db_list{$sk_file_name}{'sum'} = "md5 $sk_file_md5 " .
-                                                 "sha1 $sk_file_sha1";
+                                                "sha1 $sk_file_sha1";
+
+                
             }
-           
-            /*$db_list{$sk_file_name}{'size'} = $sk_file_size;
-            $db_list{$sk_file_name}{'md5'} = "md5 $sk_file_md5";
-            $db_list{$sk_file_name}{'sha1'} = "sha1 $sk_file_sha1";*/
             
             $db_count++;
         }
@@ -281,6 +300,12 @@ function __os_getdb_custom($file, $_name)
         array_push($db_array, $entry);
         $db_count++;
     }
+
+    if ($checkHash && !$found) {
+        $filters['sha1'] = 'ERROR';
+        $filters['md5'] = 'ERROR';
+    }
+
     return($db_array);
 }
 
@@ -359,7 +384,7 @@ function __os_getchanges($file, &$g_last_changes, $_name)
             }
         }
     }
-    
+
     fclose($fp);
 
 }
@@ -430,7 +455,7 @@ function os_syscheck_dumpdb($ossec_handle, $agent_name)
     }
 }
 
-function os_syscheck_dumpdb_custom($ossec_handle, $agent_name)
+function os_syscheck_dumpdb_custom($ossec_handle, $agent_name, &$filters)
 {
     $dh = NULL;
     $file = NULL;
@@ -484,7 +509,7 @@ function os_syscheck_dumpdb_custom($ossec_handle, $agent_name)
                 continue;
             }
             
-            $array = __os_getdb_custom($sk_dir."/".$file, $_name);
+            $array = __os_getdb_custom($sk_dir."/".$file, $_name, $filters);
             closedir($dh);
             return($array);        
         }

@@ -1,10 +1,20 @@
 <?php
 
 if(($syscheck_list == NULL) || ($syscheck_list{'global_list'} == NULL)) {
-    echo '
+    if ($filters['md5'] == 'ERROR' || $filters['sha1'] == 'ERROR') {
+        echo "
+        The hash you've entered does not match any file's hash.<br />
+        ";
+    } else if ($filters['fileName'] == 'ERROR') {
+        echo '
+        No file containing "'.$fileName.'" within its name has been found.<br />
+        ';
+    } else {
+        echo '
         No integrity checking information available.<br />
         Nothing reported as changed.
         ';
+    }
 } else {
     if(isset($syscheck_list{'global_list'}) && isset($syscheck_list{'global_list'}{'days'})) {
         $last_mod_date = "";
@@ -28,7 +38,7 @@ if(($syscheck_list == NULL) || ($syscheck_list{'global_list'} == NULL)) {
                         </a>
                         <!-- Card Content - Collapse -->
                         <div class="collapse" id="collapseCardExample'.$idIt.'" style="">
-                        <div class="card-body">
+                          <div class="card-body">
                             <b>File name: '.$file_name.'</b><br>';
                             echo '<b>Agent: '.$file_agent.'</b><br>';
                             echo '<b>Modification time: '.date('Y M d H:i:s', $file_time).'</b><br><br>';
@@ -45,6 +55,41 @@ if(($syscheck_list == NULL) || ($syscheck_list{'global_list'} == NULL)) {
                 }
             }
         }
+    } else if ($filters['fileName'] != "") {
+        // print_r($syscheck_list{'global_list'});
+        if (sizeof($syscheck_list) != 0) {
+            $i = 0;
+            foreach($syscheck_list{'global_list'} as $file) {
+                $file_time = $file[0];
+                $file_agent = $file[1];
+                $file_name = $file[2];
+                echo "\n<b>Last Modification Date: ".date('Y M d', $file_time)."</b>\n";
+                echo '<br><br>';
+                echo '
+                <div class="card shadow mb-4">
+                    <a href="#collapseCardExample'.$i.'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardExample'.$i.'">
+                    <h6 class="m-0 font-weight-bold text-primary">File: '.$file_name.'</h6>
+                    </a>
+                    <!-- Card Content - Collapse -->
+                    <div class="collapse" id="collapseCardExample'.$i.'" style="">
+                      <div class="card-body">
+                        <b>File name: '.$file_name.'</b><br>';
+                        echo '<b>Agent: '.$file_agent.'</b><br>';
+                        echo '<b>Modification time: '.date('Y M d H:i:s', $file_time).'</b><br><br>';
+                        echo '<button type="button" fileName="'.$file_name.'" onclick="loadSpecificChecksum(this);" class="btn btn-primary custom-btn" data-toggle="modal" data-target="#myModal">
+                        Verify Checksum
+                        </button>';
+                echo '</div>
+                    </div>
+                </div>
+                
+                ';
+                echo '<br/>';
+                $i += 1;
+            }
+        }        
+    } else if ($filters['fileName'] != "") {
+        
     }
 }
 ?>

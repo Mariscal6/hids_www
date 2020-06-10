@@ -36,7 +36,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Minimum level:</label>
+            <label style="width: 160px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="Specify the minimum alert level." style="margin-right:6px;" aria-hidden="true"></i>
+                Minimum level:
+            </label>
             </div>
             <select class="custom-select" name="level">
             <?php
@@ -67,7 +70,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Category: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="Specify the category of the alert." style="margin-right:6px;" aria-hidden="true"></i>    
+                Category:
+            </label>
             </div>
             <select class="custom-select" name="grouppattern" id="inputGroupSelect01">
             <option value="ALL" class="bluez">All categories</option>
@@ -102,7 +108,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Pattern: </label>
+            <label style="width: 160px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="String pattern matching." style="margin-right:6px;" aria-hidden="true"></i>
+                Pattern: 
+            </label>
             </div>
             <input type="text" class="form-control" name="strpattern" value="<?php echo $u_pattern?>"/>
         </div>
@@ -110,7 +119,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Log formats: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="Log file type." style="margin-right:6px;" aria-hidden="true"></i>
+                Log formats: 
+            </label>
             </div>
             <select class="custom-select" name="logpattern">
                 <?php
@@ -146,7 +158,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Srcip: </label>
+            <label style="width: 160px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="Source IP address." style="margin-right:6px;" aria-hidden="true"></i>
+                Srcip: 
+            </label>
             </div>
             <input type="text" class="form-control" name="srcippattern" value="<?php echo $u_srcip?>"/>
         </div>
@@ -154,7 +169,10 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">User: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="Specific file user." style="margin-right:6px;" aria-hidden="true"></i>
+                User:
+            </label>
             </div>
             <input type="text" class="form-control" name="srcippattern" value="<?php echo $u_srcip?>"/>
         </div>
@@ -164,7 +182,9 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 140px;"class="input-group-text" for="inputGroupSelect01">Location: </label>
+            <label style="width: 160px;"class="input-group-text" for="inputGroupSelect01">
+                <i class="fas fa-info-circle" title="File directory." style="margin-right:6px;" aria-hidden="true"></i>
+                Location: </label>
             </div>
             <input type="text" class="form-control" name="locationpattern" value="<?php echo $u_location?>"/>
         </div>
@@ -172,7 +192,9 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 120px;" class="input-group-text" for="inputGroupSelect01">Rule id: </label>
+            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">
+            <i class="fas fa-info-circle" title="ID of the rule." style="margin-right:6px;" aria-hidden="true"></i>
+            Rule id: </label>
             </div>
             <input type="text" class="form-control" name="rulepattern" value="<?php echo $u_rule?>"/>
         </div>
@@ -182,13 +204,15 @@
         <div class="col-sm-6">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-            <label style="width: 140px;" class="input-group-text" for="inputGroupSelect01">Max Alerts: </label>
+            <label style="width: 160px;" class="input-group-text" for="inputGroupSelect01">
+            <i class="fas fa-info-circle" title="Maximum number of displayed alerts." style="margin-right:6px;" aria-hidden="true"></i>
+            Max Alerts: </label>
             </div>
             <input type="text" class="form-control" name="max_alerts_per_page" value="<?php echo $ossec_max_alerts_per_page?>"/>
         </div>
         </div>
         <div class="col-sm-6">
-        <input type="submit" name="search" value="Search" class="btn btn-info" />
+        <input style="width: 160px;" type="submit" name="search" value="Search" class="btn btn-info" />
         </div>
     </div>
     <input type="hidden" name="searchid" value="<?php echo $USER_searchid ?>" />
